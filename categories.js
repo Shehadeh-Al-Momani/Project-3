@@ -6,25 +6,25 @@ app.use(express.json());
 // require('dotenv').config();
 
 const laptops = [
-  { discription : "Laptops" },
+  { discription: "Laptops" },
   { id: 0, product: "Traditional laptops", price: 600 },
   { id: 1, product: "Windows Laptop", price: 800 },
   // { id: 2, product: "MacBooks", price: 1200 },
 ]
 const desktops = [
-  { discription : "Desktops" },
+  { discription: "Desktops" },
   { id: 0, product: "Tower", price: 500 },
   { id: 1, product: "All-in-One", price: 700 },
   { id: 2, product: "Mac Desktops", price: 1000 },
 ]
 const tablets = [
-  { discription : "Tablets" },
+  { discription: "Tablets" },
   { id: 0, product: "Windows Tablets", price: 300 },
   { id: 1, product: "Ios Tablets", price: 400 },
-  // { id: 2, product: "Android", price: 200 },
+  // { id: 2, product: "Android Tablets", price: 200 },
 ]
 const monitors = [
-  { discription : "Monitors" },
+  { discription: "Monitors" },
   { id: 0, product: "4K & UHD", price: 100 },
   { id: 1, product: "Curved", price: 300 },
   // { id: 2, product: "Gaming Monitors", price: 150 },
@@ -119,7 +119,7 @@ authRouter.get('/COMPUTERS/monitors', (req, res, next) => {
 });
 
 const creatComputerComponents = (req, res, next) => {
-  const computerComponents = [{ discription : "Computer Components" }];
+  const computerComponents = [{ discription: "Computer Components" }];
   for (k in req.body) {
     computerComponents.push({ id: k, product: req.body[k].product, price: req.body[k].price });
   }
@@ -148,13 +148,13 @@ authRouter.post('/COMPUTERS', creatComputerComponents, (req, res, next) => {
   for (let i = 0; i < ELECTRONICS[0].departments.length; i++) {
     categories.push(ELECTRONICS[0].departments[i][0].discription);
   }
-  res.json(ELECTRONICS[0].departments[ELECTRONICS[0].departments.length-1]);
+  res.json(ELECTRONICS[0].departments[ELECTRONICS[0].departments.length - 1]);
   next();
- });
+});
 
 authRouter.get('/COMPUTERS/computerComponents', (req, res, next) => {
   const products = [];
-   computerComponents = ELECTRONICS[0].departments[4]
+  computerComponents = ELECTRONICS[0].departments[4]
   for (let i = 1; i < computerComponents.length; i++) {
     products.push(computerComponents[i].product + ' : ' + computerComponents[i].price);
   }
@@ -162,14 +162,24 @@ authRouter.get('/COMPUTERS/computerComponents', (req, res, next) => {
 });
 
 authRouter.post('/COMPUTERS/laptops', (req, res, next) => {
-  const products = [];
-    laptops.push({ id: laptops.length-1, product: "MacBooks", price: 1200 });
-   
+  const obj = req.body ;
+  laptops.push({ id: laptops.length - 1, product: obj.laptops.product , price: obj.laptops.price });
   res.json(laptops);
 });
 
-// 8 end points 
+authRouter.post('/COMPUTERS/tablets', (req, res, next) => {
+  const obj = req.body ;
+  tablets.push({ id: tablets.length - 1, product: obj.tablets.product , price: obj.tablets.price });
+  res.json(tablets);
+});
 
+authRouter.post('/COMPUTERS/monitors', (req, res, next) => {
+  const obj = req.body ;
+  monitors.push({ id: monitors.length - 1, product: obj.monitors.product , price: obj.monitors.price });
+  res.json(monitors);
+});
+
+// 10 end points 
 
 
 
