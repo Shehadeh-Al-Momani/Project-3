@@ -20,7 +20,11 @@
   "homepage": "https://github.com/Shehadeh-Al-Momani/Project-3#readme",
   "dependencies": {
     "axios": "^0.20.0",
+    "bcrypt": "^5.0.0",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "fs": "0.0.1-security"
+    "fs": "0.0.1-security",
+    "jsonwebtoken": "^8.5.1",
+    "node-pre-gyp": "^0.15.0"
   }
 }

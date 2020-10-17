@@ -50,27 +50,6 @@ const monitors = [
 //   { id: 0, department: "mate 40 pro", price: 700 },
 //   { id: 1, department: "P40", price: 300 },
 // ]
-// const televisions = [
-//   { id: 0, department: "LED & LCD", price: 600 },
-//   { id: 1, department: "OLED", price: 300 },
-// ]
-// const projectors = [
-//   { id: 0, department: "Projectors", price: 600 },
-// ]
-// const satellite = [
-//   { id: 0, department: "Receivers", price: 700 },
-//   { id: 1, department: "Satellite Dishes", price: 300 },
-// ]
-// const ps = [
-//   { id: 0, department: "PS5", price: 700 },
-//   { id: 1, department: "PS4", price: 300 },
-//   { id: 2, department: "PS3", price: 200 },
-// ]
-// const xbox = [
-//   { id: 0, department: "XBOX one", price: 600 },
-//   { id: 1, department: "XBOX 360", price: 300 },
-// ]
-
 const ELECTRONICS = [
   { id: 0, category: "COMPUTERS", departments: [laptops, desktops, tablets, monitors] /*computerComponents */ },
   // { id: 1, category: "Cell Phones", departments: [samsung, iphon, huawei] },
@@ -261,7 +240,7 @@ authRouter.put('/COMPUTERS/laptops', (req, res, next) => {
   const products = [];
   for (let i = 0; i < laptops.length; i++) {
     if (laptops[i].price >= req.body.price) {
-      laptops[i].price = 0.9 * laptops[i].price ;
+      laptops[i].price = 0.9 * laptops[i].price;
     }
   }
   for (let i = 1; i < laptops.length; i++) {
@@ -274,7 +253,7 @@ authRouter.put('/COMPUTERS/desktops', (req, res, next) => {
   const products = [];
   for (let i = 0; i < desktops.length; i++) {
     if (desktops[i].price >= req.body.price) {
-      desktops[i].price = 0.9 * desktops[i].price ;
+      desktops[i].price = 0.9 * desktops[i].price;
     }
   }
   for (let i = 1; i < desktops.length; i++) {
@@ -283,11 +262,14 @@ authRouter.put('/COMPUTERS/desktops', (req, res, next) => {
   res.json(products);
 });
 
+/* on postman : {
+"price" : 700
+}*/
 authRouter.delete('/COMPUTERS/tablets', (req, res, next) => {
   const products = [];
   for (let i = 0; i < tablets.length; i++) {
     if (tablets[i].price >= req.body.price) {
-      tablets.slice(i,1);
+      tablets.slice(i, 1);
     }
   }
   for (let i = 1; i < tablets.length; i++) {
@@ -300,7 +282,7 @@ authRouter.delete('/COMPUTERS/monitors', (req, res, next) => {
   const products = [];
   for (let i = 0; i < monitors.length; i++) {
     if (monitors[i].price >= req.body.price) {
-       monitors.slice(i,1);
+      monitors.slice(i, 1);
     }
   }
   for (let i = 1; i < monitors.length; i++) {
@@ -308,7 +290,9 @@ authRouter.delete('/COMPUTERS/monitors', (req, res, next) => {
   }
   res.json(products);
 });
-
+/* on postman : {
+"price" : 250
+}*/
 // 20 end points 
 
 
@@ -318,16 +302,26 @@ authRouter.delete('/COMPUTERS/monitors', (req, res, next) => {
 
 
 
-// ELECTRONICS =   Computer + Cell Phones + TV & Video + Video Games
-// Video Games = PS : { PS5 , PS4 , PS3 } + PC + XBOX : { XBOX one , XBOX360} 
-// TV & Video = Televisions : { LED & LCD TVs , OLED TVs } + Projectors + Satellite  : { Receivers , Satellite Dishes }
-// Cell Phones = SAMSUNG + IPHONE + HUAWEI 
-// Computers = 
-// Laptops = Traditional laptops + Windows Laptops + MacBooks
-// Desktops = Tower + All-in-One + Mac Desktops 
-// Tablets = Windows + Ios + Android 
-// Monitors = 4K & UHD + Curved + Gaming Monitors  
-// Computer Components = Memory + Drives + Graphics Cards + Motherboards + Processors
+// const televisions = [
+//   { id: 0, department: "LED & LCD", price: 600 },
+//   { id: 1, department: "OLED", price: 300 },
+// ]
+// const projectors = [
+//   { id: 0, department: "Projectors", price: 600 },
+// ]
+// const satellite = [
+//   { id: 0, department: "Receivers", price: 700 },
+//   { id: 1, department: "Satellite Dishes", price: 300 },
+// ]
+// const ps = [
+//   { id: 0, department: "PS5", price: 700 },
+//   { id: 1, department: "PS4", price: 300 },
+//   { id: 2, department: "PS3", price: 200 },
+// ]
+// const xbox = [
+//   { id: 0, department: "XBOX one", price: 600 },
+//   { id: 1, department: "XBOX 360", price: 300 },
+// ]
 
 app.use(authRouter);
 
