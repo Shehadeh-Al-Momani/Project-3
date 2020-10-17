@@ -172,8 +172,6 @@ authRouter.post('/COMPUTERS/monitors', (req, res, next) => {
   res.json(monitors);
 });
 
-// 10 end points 
-
 const creatCellPhones = (req, res, next) => {
   ELECTRONICS.push({ id: ELECTRONICS.length, category: req.body.category, departments: [] })
   const samsung = [{ discription: "SAMSUNG" }];
@@ -259,17 +257,59 @@ authRouter.get('/cellPhones/HUAWEI', (req, res, next) => {
   res.json(products);
 });
 
+authRouter.put('/COMPUTERS/laptops', (req, res, next) => {
+  const products = [];
+  for (let i = 0; i < laptops.length; i++) {
+    if (laptops[i].price >= req.body.price) {
+      laptops[i].price = 0.9 * laptops[i].price ;
+    }
+  }
+  for (let i = 1; i < laptops.length; i++) {
+    products.push(laptops[i].product + ' : ' + laptops[i].price);
+  }
+  res.json(products);
+});
 
+authRouter.put('/COMPUTERS/desktops', (req, res, next) => {
+  const products = [];
+  for (let i = 0; i < desktops.length; i++) {
+    if (desktops[i].price >= req.body.price) {
+      desktops[i].price = 0.9 * desktops[i].price ;
+    }
+  }
+  for (let i = 1; i < desktops.length; i++) {
+    products.push(desktops[i].product + ' : ' + desktops[i].price);
+  }
+  res.json(products);
+});
 
+authRouter.delete('/COMPUTERS/tablets', (req, res, next) => {
+  const products = [];
+  for (let i = 0; i < tablets.length; i++) {
+    if (tablets[i].price >= req.body.price) {
+      tablets.slice(i,1);
+    }
+  }
+  for (let i = 1; i < tablets.length; i++) {
+    products.push(tablets[i].product + ' : ' + tablets[i].price);
+  }
+  res.json(products);
+});
 
+authRouter.delete('/COMPUTERS/monitors', (req, res, next) => {
+  const products = [];
+  for (let i = 0; i < monitors.length; i++) {
+    if (monitors[i].price >= req.body.price) {
+       monitors.slice(i,1);
+    }
+  }
+  for (let i = 1; i < monitors.length; i++) {
+    products.push(monitors[i].product + ' : ' + monitors[i].price);
+  }
+  res.json(products);
+});
 
-
-
-
-
-
-
-
+// 20 end points 
 
 
 
