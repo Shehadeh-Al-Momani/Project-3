@@ -136,13 +136,6 @@ on postman body :
     "4" : {"product":"Processors"    ,"price" : 300} 
 }
 */
-// const computerComponents = [
-//   { id: 0, product: "Memory", price: 50 },
-//   { id: 1, product: "Drives", price: 100 },
-//   { id: 2, product: "Graphics Cards", price: 400 },
-//   { id: 3, product: "Motherboards", price: 400 },
-//   { id: 4, product: "Processors", price: 300 },
-// ]
 authRouter.post('/COMPUTERS', creatComputerComponents, (req, res, next) => {
   const categories = [];
   for (let i = 0; i < ELECTRONICS[0].departments.length; i++) {
@@ -162,32 +155,109 @@ authRouter.get('/COMPUTERS/computerComponents', (req, res, next) => {
 });
 
 authRouter.post('/COMPUTERS/laptops', (req, res, next) => {
-  const obj = req.body ;
-  laptops.push({ id: laptops.length - 1, product: obj.laptops.product , price: obj.laptops.price });
+  const obj = req.body.laptops;
+  laptops.push({ id: laptops.length - 1, product: obj.product, price: obj.price });
   res.json(laptops);
 });
 
 authRouter.post('/COMPUTERS/tablets', (req, res, next) => {
-  const obj = req.body ;
-  tablets.push({ id: tablets.length - 1, product: obj.tablets.product , price: obj.tablets.price });
+  const obj = req.body.tablets;
+  tablets.push({ id: tablets.length - 1, product: obj.product, price: obj.price });
   res.json(tablets);
 });
 
 authRouter.post('/COMPUTERS/monitors', (req, res, next) => {
-  const obj = req.body ;
-  monitors.push({ id: monitors.length - 1, product: obj.monitors.product , price: obj.monitors.price });
+  const obj = req.body.monitors;
+  monitors.push({ id: monitors.length - 1, product: obj.product, price: obj.price });
   res.json(monitors);
 });
 
 // 10 end points 
 
+const creatCellPhones = (req, res, next) => {
+  ELECTRONICS.push({ id: ELECTRONICS.length, category: req.body.category, departments: [] })
+  const samsung = [{ discription: "SAMSUNG" }];
+  const objSamsung = req.body.samsung
+  for (k in objSamsung) {
+    samsung.push({ id: k, product: objSamsung[k].product, price: objSamsung[k].price });
+  }
+  ELECTRONICS[ELECTRONICS.length - 1].departments.push(samsung)
 
+  const iphon = [{ discription: "IPHONE" }];
+  const objIphon = req.body.iphon
+  for (k in objIphon) {
+    iphon.push({ id: k, product: objIphon[k].product, price: objIphon[k].price });
+  }
+  ELECTRONICS[ELECTRONICS.length - 1].departments.push(iphon)
 
+  const huawei = [{ discription: "HUAWEI" }];
+  const objHuawei = req.body.huawei
+  for (k in objHuawei) {
+    huawei.push({ id: k, product: objHuawei[k].product, price: objHuawei[k].price });
+  }
+  ELECTRONICS[ELECTRONICS.length - 1].departments.push(huawei)
+  next();
+};
+/*
+on postman body :
+{ "samsung" :
+  {"0" : {"product":"Note20"  ,"price" : 1000} ,
+   "1" : {"product":"S20"     ,"price" : 800} }, 
+ "iphon" :
+  {"0" : {"product":"iphonX"  ,"price" : 1200} ,
+   "1" : {"product":"iphon10"     ,"price" : 900} }, 
+ "huawei" : 
+  {"0" : {"product":"mate 40 pro"  ,"price" : 800} ,
+   "1" : {"product":"P40 pro"     ,"price" : 700} }, 
+ }
+*/
+authRouter.post('/', creatCellPhones, (req, res, next) => {
+  res.json(ELECTRONICS[ELECTRONICS.length - 1]);
+  next();
+});
 
+authRouter.get('/', (req, res, next) => {
+  const categories = [];
+  for (let i = 0; i < ELECTRONICS.length; i++) {
+    categories.push(ELECTRONICS[i].category);
+  }
+  res.json(categories);
+});
 
+authRouter.get('/cellPhones', (req, res) => {
+  const categories = [];
+  for (let i = 0; i < ELECTRONICS[ELECTRONICS.length - 1].departments.length; i++) {
+    categories.push(ELECTRONICS[ELECTRONICS.length - 1].departments[i][0].discription);
+  }
+  res.json(categories);
+});
 
+authRouter.get('/cellPhones/SAMSUNG', (req, res, next) => {
+  const products = [];
+  SAMSUNG = ELECTRONICS[ELECTRONICS.length - 1].departments[0];
+  for (let i = 1; i < SAMSUNG.length; i++) {
+    products.push(SAMSUNG[i].product + ' : ' + SAMSUNG[i].price);
+  }
+  res.json(products);
+});
 
+authRouter.get('/cellPhones/IPHONE', (req, res, next) => {
+  const products = [];
+  IPHONE = ELECTRONICS[ELECTRONICS.length - 1].departments[1];
+  for (let i = 1; i < IPHONE.length; i++) {
+    products.push(IPHONE[i].product + ' : ' + IPHONE[i].price);
+  }
+  res.json(products);
+});
 
+authRouter.get('/cellPhones/HUAWEI', (req, res, next) => {
+  const products = [];
+  HUAWEI = ELECTRONICS[ELECTRONICS.length - 1].departments[2];
+  for (let i = 1; i < HUAWEI.length; i++) {
+    products.push(HUAWEI[i].product + ' : ' + HUAWEI[i].price);
+  }
+  res.json(products);
+});
 
 
 
