@@ -1,8 +1,6 @@
 const express = require('express');
-const { register, login, getUsers } = require('./controller');
-
-const middleware = require('./middlewares');
-
+const { register,login,getUsers,getComputers , getLaptops, getDesktops, getTablets, getMonitors, postComputers, getComputerComponents, postLaptops, postTablets,postMonitors, postElectronics,getElectronics,getCellPhones,getSamasung,getIphone,getHuawei,putLaptops,putDesktops,deleteTablets,deleteMonitors, } = require('./controller');
+const {middleware, creatComputerComponents, creatCellPhones,} = require('./middlewares');
 const authRouter = express.Router();
 
 authRouter.get('/', async (req, res) => {
@@ -10,8 +8,7 @@ authRouter.get('/', async (req, res) => {
 });
 
 authRouter.get('/protected', middleware, (req, res) => {
-  // res.json('Hello World');
-  res.json(['ali','khalil']);
+  res.json('Youre admin');
 });
 
 authRouter.post('/register', async (req, res) => {
@@ -30,13 +27,165 @@ authRouter.post('/login', async (req, res) => {
   }
 });
 
+authRouter.get('/COMPUTERS', async (req, res, next) => {
+  try {
+    res.json(await getComputers());
+  } catch (err) {
+    throw err;
+  }
+});
+
+authRouter.get('/COMPUTERS/laptops', async (req, res, next) => {
+  try {
+    res.json(await getLaptops(req.body));
+  } catch (err) {
+    throw err;
+  }
+});
+
+authRouter.get('/COMPUTERS/desktops',async (req, res, next) => {
+  try {
+    res.json(await getDesktops(req.body));
+  } catch (err) {
+    throw err;
+  }
+});
+
+authRouter.get('/COMPUTERS/tablets',async (req, res, next) => {
+  try {
+    res.json(await getTablets(req.body));
+  } catch (err) {
+    throw err;
+  }
+});
+
+authRouter.get('/COMPUTERS/monitors',async (req, res, next) => {
+  try {
+    res.json(await getMonitors(req.body));
+  } catch (err) {
+    throw err;
+  }
+});
+
+authRouter.post('/COMPUTERS', creatComputerComponents,async  (req, res, next) => {
+  try {
+    res.json(await postComputers(req.body));
+  } catch (err) {
+    throw err;
+  }
+});
+
+authRouter.get('/COMPUTERS/computerComponents', async (req, res, next) => {
+  try {
+    res.json(await getComputerComponents(req.body));
+  } catch (err) {
+    throw err;
+  }
+}); 
+
+authRouter.post('/COMPUTERS/laptops', async (req, res, next) => {
+  try {
+    res.json(await postLaptops(req.body));
+  } catch (err) {
+    throw err;
+  }
+});
+
+authRouter.post('/COMPUTERS/tablets',async  (req, res, next) => {
+  try {
+    res.json(await postTablets(req.body));
+  } catch (err) {
+    throw err;
+  }
+});
+
+authRouter.post('/COMPUTERS/monitors', async (req, res, next) => {
+  try {
+    res.json(await postMonitors(req.body));
+  } catch (err) {
+    throw err;
+  }
+});
+
+authRouter.post('/', creatCellPhones,async  (req, res, next) => {
+  try {
+    res.json(await postElectronics(req.body));
+  } catch (err) {
+    throw err;
+  }
+});
+
+authRouter.get('/',async  (req, res, next) => {
+  try {
+    res.json(await getElectronics(req.body));
+  } catch (err) {
+    throw err;
+  }
+});
+
+authRouter.get('/cellPhones', async (req, res) => {
+  try {
+    res.json(await getCellPhones(req.body));
+  } catch (err) {
+    throw err;
+  }
+});
+
+authRouter.get('/cellPhones/SAMSUNG',async  (req, res, next) => {
+ try {
+    res.json(await getSamasung(req.body));
+  } catch (err) {
+    throw err;
+  }
+});
+
+authRouter.get('/cellPhones/IPHONE', async (req, res, next) => {
+  try {
+    res.json(await getIphone(req.body));
+  } catch (err) {
+    throw err;
+  }
+});
+
+authRouter.get('/cellPhones/HUAWEI', async (req, res, next) => {
+  try {
+    res.json(await getHuawei(req.body));
+  } catch (err) {
+    throw err;
+  }
+});
+
+authRouter.put('/COMPUTERS/laptops', async (req, res, next) => {
+  try {
+    res.json(await putLaptops(req.body));
+  } catch (err) {
+    throw err;
+  }
+});
+
+authRouter.put('/COMPUTERS/desktops', async (req, res, next) => {
+  try {
+    res.json(await putDesktops(req.body));
+  } catch (err) {
+    throw err;
+  }
+});
+
+authRouter.delete('/COMPUTERS/tablets', async(req, res, next) => {
+  try {
+    res.json(await deleteTablets(req.body));
+  } catch (err) {
+    throw err;
+  }
+});
+
+authRouter.delete('/COMPUTERS/monitors',async  (req, res, next) => {
+  try {
+    res.json(await deleteMonitors(req.body));
+  } catch (err) {
+    throw err;
+  }
+});
+
 module.exports =authRouter
 
-
-/* 
-token for 1 hour 12:28
-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXIzQGdtYWlsLmNvbSIsInBlcm1pc3Npb25zIjpbInIiLCJ3Il0sImlhdCI6MTYwMjYyMDc1MywiZXhwIjoxNjAyNjI0MzUzfQ.OQe0R2YEYsdokCmZlPaslXNTWwoiObpLUsBQvFbbjmo
-
-token will exp 11:32
-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXIzQGdtYWlsLmNvbSIsInBlcm1pc3Npb25zIjpbInIiLCJ3Il0sImlhdCI6MTYwMjYyMDg4NSwiZXhwIjoxNjAyNjI0NDg1fQ.Rs1W53RBSjN9mMNqE3ksBze3R6bP6YycIPHSauYCAII
-*/

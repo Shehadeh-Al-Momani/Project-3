@@ -34,8 +34,45 @@ const users = [
     },
   ];
   
+  
+const laptops = [
+  { discription: "Laptops" },
+  { id: 0, product: "Traditional laptops", price: 600 },
+  { id: 1, product: "Windows Laptop", price: 800 },
+  // { id: 2, product: "MacBooks", price: 1200 },
+]
+const desktops = [
+  { discription: "Desktops" },
+  { id: 0, product: "Tower", price: 500 },
+  { id: 1, product: "All-in-One", price: 700 },
+  { id: 2, product: "Mac Desktops", price: 1000 },
+]
+const tablets = [
+  { discription: "Tablets" },
+  { id: 0, product: "Windows Tablets", price: 300 },
+  { id: 1, product: "Ios Tablets", price: 400 },
+  // { id: 2, product: "Android Tablets", price: 200 },
+]
+const monitors = [
+  { discription: "Monitors" },
+  { id: 0, product: "4K & UHD", price: 100 },
+  { id: 1, product: "Curved", price: 300 },
+  // { id: 2, product: "Gaming Monitors", price: 150 },
+]
+  const ELECTRONICS = [
+    { id: 0, category: "COMPUTERS", departments: [laptops, desktops, tablets, monitors] /*computerComponents */ },
+    // { id: 1, category: "Cell Phones", departments: [samsung, iphon, huawei] },
+    // { id: 2, category: "TV & Video", departments: [televisions, projectors, satellite] },
+    // { id: 3, category: "Video Games Console", departments: [ps, xbox] },
+  ]
+
   module.exports = {
     users,
     roles,
-  };
+    ELECTRONICS,
+    laptops, 
+    desktops,
+    tablets,
+    monitors,
+   };
   
