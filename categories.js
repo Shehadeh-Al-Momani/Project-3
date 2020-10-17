@@ -6,21 +6,25 @@ app.use(express.json());
 // require('dotenv').config();
 
 const laptops = [
+  { discription : "Laptops" },
   { id: 0, product: "Traditional laptops", price: 600 },
   { id: 1, product: "Windows Laptop", price: 800 },
   // { id: 2, product: "MacBooks", price: 1200 },
 ]
 const desktops = [
+  { discription : "Desktops" },
   { id: 0, product: "Tower", price: 500 },
   { id: 1, product: "All-in-One", price: 700 },
   { id: 2, product: "Mac Desktops", price: 1000 },
 ]
 const tablets = [
-  { id: 0, product: "Windows", price: 300 },
-  { id: 1, product: "Ios", price: 400 },
+  { discription : "Tablets" },
+  { id: 0, product: "Windows Tablets", price: 300 },
+  { id: 1, product: "Ios Tablets", price: 400 },
   // { id: 2, product: "Android", price: 200 },
 ]
 const monitors = [
+  { discription : "Monitors" },
   { id: 0, product: "4K & UHD", price: 100 },
   { id: 1, product: "Curved", price: 300 },
   // { id: 2, product: "Gaming Monitors", price: 150 },
@@ -68,54 +72,70 @@ const monitors = [
 // ]
 
 const ELECTRONICS = [
-  { id: 0, category: "COMPUTERS", departments: ['laptops', 'desktops', 'tablets', 'monitors'] /*computerComponents */  },
+  { id: 0, category: "COMPUTERS", departments: [laptops, desktops, tablets, monitors] /*computerComponents */ },
   // { id: 1, category: "Cell Phones", departments: [samsung, iphon, huawei] },
   // { id: 2, category: "TV & Video", departments: [televisions, projectors, satellite] },
   // { id: 3, category: "Video Games Console", departments: [ps, xbox] },
 ]
- 
+
 authRouter.get('/COMPUTERS', (req, res, next) => {
-     res.json( ELECTRONICS[0].departments);
-    console.log( 'ELECTRONICS :' , ELECTRONICS[0].departments)   
+  const categories = [];
+  for (let i = 0; i < ELECTRONICS[0].departments.length; i++) {
+    categories.push(ELECTRONICS[0].departments[i][0].discription);
+  }
+  res.json(categories);
 });
- 
+
 authRouter.get('/COMPUTERS/laptops', (req, res, next) => {
-  const products =[]; 
-  for (let i = 0; i < laptops.length; i++) {
-     products.push(laptops[i].product +' : ' + laptops[i].price) ;
+  const products = [];
+  for (let i = 1; i < laptops.length; i++) {
+    products.push(laptops[i].product + ' : ' + laptops[i].price);
   }
   res.json(products);
 });
 
 authRouter.get('/COMPUTERS/desktops', (req, res, next) => {
-  const products =[]; 
-  for (let i = 0; i < desktops.length; i++) {
-     products.push(desktops[i].product +' : ' + desktops[i].price) ;
+  const products = [];
+  for (let i = 1; i < desktops.length; i++) {
+    products.push(desktops[i].product + ' : ' + desktops[i].price);
   }
   res.json(products);
 });
 
 authRouter.get('/COMPUTERS/tablets', (req, res, next) => {
-  const products =[]; 
-  for (let i = 0; i < tablets.length; i++) {
-     products.push(tablets[i].product +' : ' + tablets[i].price) ;
+  const products = [];
+  for (let i = 1; i < tablets.length; i++) {
+    products.push(tablets[i].product + ' : ' + tablets[i].price);
   }
   res.json(products);
 });
 
 authRouter.get('/COMPUTERS/monitors', (req, res, next) => {
-  const products =[]; 
-  for (let i = 0; i < monitors.length; i++) {
-     products.push(monitors[i].product +' : ' + monitors[i].price) ;
+  const products = [];
+  for (let i = 1; i < monitors.length; i++) {
+    products.push(monitors[i].product + ' : ' + monitors[i].price);
   }
   res.json(products);
 });
 
 const creatComputerComponents = (req, res, next) => {
-  console.log(users);
+  const computerComponents = [{ discription : "Computer Components" }];
+  for (k in req.body) {
+    computerComponents.push({ id: k, product: req.body[k].product, price: req.body[k].price });
+  }
+  ELECTRONICS[0].departments.push(computerComponents)
   next();
 };
-
+/*
+on postman body :
+{
+    "0" : {"product":"Memory"        ,"price" : 50} ,
+    "1" : {"product":"Drives"        ,"price" : 100} ,
+    "2" : {"product":"Graphics Cards","price" : 400} ,
+    "3" : {"product":"Motherboards"  ,"price" : 400} ,
+    "4" : {"product":"Processors"    ,"price" : 300} 
+}
+*/
 // const computerComponents = [
 //   { id: 0, product: "Memory", price: 50 },
 //   { id: 1, product: "Drives", price: 100 },
@@ -123,11 +143,32 @@ const creatComputerComponents = (req, res, next) => {
 //   { id: 3, product: "Motherboards", price: 400 },
 //   { id: 4, product: "Processors", price: 300 },
 // ]
-authRouter.post('/COMPUTERS',creatComputerComponents,(req, res, next) => {
-  ELECTRONICS[0].departments.push('computerComponents')
-  res.json( ELECTRONICS[0].departments);
+authRouter.post('/COMPUTERS', creatComputerComponents, (req, res, next) => {
+  const categories = [];
+  for (let i = 0; i < ELECTRONICS[0].departments.length; i++) {
+    categories.push(ELECTRONICS[0].departments[i][0].discription);
+  }
+  res.json(ELECTRONICS[0].departments[ELECTRONICS[0].departments.length-1]);
+  next();
+ });
+
+authRouter.get('/COMPUTERS/computerComponents', (req, res, next) => {
+  const products = [];
+   computerComponents = ELECTRONICS[0].departments[4]
+  for (let i = 1; i < computerComponents.length; i++) {
+    products.push(computerComponents[i].product + ' : ' + computerComponents[i].price);
+  }
+  res.json(products);
 });
 
+authRouter.post('/COMPUTERS/laptops', (req, res, next) => {
+  const products = [];
+    laptops.push({ id: laptops.length-1, product: "MacBooks", price: 1200 });
+   
+  res.json(laptops);
+});
+
+// 8 end points 
 
 
 
@@ -169,7 +210,7 @@ authRouter.post('/COMPUTERS',creatComputerComponents,(req, res, next) => {
 // Computer Components = Memory + Drives + Graphics Cards + Motherboards + Processors
 
 app.use(authRouter);
- 
+
 const port = 3000;
 app.listen(port, () => {
   console.log(`MW at http://localhost:${port}`);
