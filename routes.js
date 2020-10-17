@@ -1,6 +1,7 @@
 const express = require('express');
 const { register,login,getUsers,getComputers , getLaptops, getDesktops, getTablets, getMonitors, postComputers, getComputerComponents, postLaptops, postTablets,postMonitors, postElectronics,getElectronics,getCellPhones,getSamasung,getIphone,getHuawei,putLaptops,putDesktops,deleteTablets,deleteMonitors, } = require('./controller');
 const {middleware, creatComputerComponents, creatCellPhones,} = require('./middlewares');
+const { users, roles, ELECTRONICS, laptops, desktops, tablets, monitors, } = require('./models');
 const authRouter = express.Router();
 
 authRouter.get('/', async (req, res) => {
