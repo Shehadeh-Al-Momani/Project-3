@@ -1,20 +1,24 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require('bcrypt');
 const { users, roles, ELECTRONICS, laptops, desktops, tablets, monitors, } = require('./models');
+const SECRET = process.env.SECRET;
+// Authentication
+// Authorization
 
-const middleware =async (req, res, next) => {
-  if(!req.headers.authorization){
-    res.json('you dont give us jwt please login')
+const middleware = async (req, res, next) => {
+  if (!req.headers.authorization) {
+    res.status(401);
+    res.json("Please login first");
   }
-  console.log('REQ: ',req.headers.authorization)
-  const checkThisToken=req.headers.authorization.split(' ')[1]
-  // const token=req.headers.authorization.slice(7)
-  
-  //          check token and secret
-  jwt.verify(checkThisToken,process.env.SECRET,(err,result)=>{
-    if(err) res.json(err)
-    console.log('RESULT: ',result) 
-    next()
+  const token = req.headers.authorization.split(' ').pop();
+  await jwt.verify(token, SECRET, (err, parsedToken) => {
+    if (err) res.json(err);
+    console.log('parsedToken: ', parsedToken);
+    if (parsedToken.role === "admin") {
+      next();
+    } else {
+      res.json("Your are not autharize to this action");
+    }
   })
 };
 

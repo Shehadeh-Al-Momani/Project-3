@@ -34,6 +34,11 @@ const users = [
     },
   ];
   
+  // const ROLE = {
+  //   ADMIN: "admin",
+  //   DOCTOR: "doctor",
+  //   STUDENT: "student",
+  // };
   
 const laptops = [
   { discription: "Laptops" },
@@ -76,3 +81,24 @@ const monitors = [
     monitors,
    };
   
+
+  //  const UserSchema = new mongoose.Schema({
+  //   name: {type: String},
+  //   email: {type: String},
+  //   password: {type: String,
+  //     required: true,
+  //     minlength: 3,
+  //     maxlength: 255
+  //   },
+  //   //give different access rights if admin or not 
+  //   isAdmin: Boolean
+  // });
+  
+  
+  // //custom method to generate authToken 
+  // UserSchema.methods.generateAuthToken = function() { 
+  //   const token = jwt.sign({ _id: this._id, isAdmin: this.isAdmin }, SECRET); //get the private key from the config file -> environment variable
+  //   return token;
+  // }
+  
+  // const User = mongoose.model('User', UserSchema);

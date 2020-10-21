@@ -9,7 +9,7 @@ authRouter.get('/', async (req, res) => {
 });
 
 authRouter.get('/protected', middleware, (req, res) => {
-  res.json('Youre admin');
+  res.json('You are admin');
 });
 
 authRouter.post('/register', async (req, res) => {
@@ -187,6 +187,20 @@ authRouter.delete('/COMPUTERS/monitors',async  (req, res, next) => {
     throw err;
   }
 });
+
+authRouter.all("*", (req, res, next) => {
+  const newErr = new Error("not found path");
+  newErr.status = 404;
+  next(newErr);
+});
+const handleAll = (err, req, res, next) => {
+  res.status(err.status).json({
+    error: {
+      message: err.message,
+    },
+  });
+};
+authRouter.use(handleAll);
 
 module.exports =authRouter
 
