@@ -1,17 +1,20 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { users, roles, ELECTRONICS, laptops, desktops, tablets, monitors, } = require('./models');
-const SECRET = process.env.SECRET;
 const SALT = Number(process.env.SALT);
+
+const getUsers = () => {
+  return users;
+};
 
 const register = async (user) => {
   const savedUser = users.filter((element) => element.email === user.email);
   if (!savedUser.length) {
     const passwordHash = await bcrypt.hash(user.password, SALT);
     const newUser = {
-      id: user.id,
-      role: user.role,
+      email: user.email,
       password: passwordHash,
+      role_id: user.id,
     }
     users.push(newUser);
     return newUser;
@@ -27,22 +30,19 @@ const login = async (user) => {
     return 'User Not Found please register';
   } else {
     if (await bcrypt.compare(user.password, savedUser[0].password)) {
-      const savedPermission = roles.filter((element) => element.id === savedUser[0].role_id);
+      const savedRole = roles.filter((element) => element.id === savedUser[0].role_id);
       const payload = {
         email: savedUser[0].email,
-        permissions: savedPermission[0].permissions,
+        role: savedRole[0].role,
       };
-      return await jwt.sign(payload, SECRET );
+      return await jwt.sign(payload, process.env.SECRET);
     } else {
       return 'Username or password not correct';
     }
   }
 };
-
-const getUsers = () => {
-  return users;
-};
-
+ 
+//"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im9tYXJAZ21haWwuY29tIiwicGVybWlzc2lvbnMiOlsiciIsInciXSwiaWF0IjoxNjAzMjkxNzAwfQ.kpSA3n8XEU8ci5fHTH1zBpQ5eq6oJISaS88zfyHU0Tw"
 const getComputers = async () => {
   const categories = [];
   for (let i = 0; i < ELECTRONICS[0].departments.length; i++) {
