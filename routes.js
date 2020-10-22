@@ -1,5 +1,5 @@
 const express = require('express');
-const { register,login,getUsers,getElectronicsDepartment, getComputersCategory, getDesktops, getTablets, getMonitors, postComputers, getComputerComponents, postNewProducts, postTablets,postMonitors, postElectronics,getMainElectronics,getSamasung,getIphone,getHuawei,putLaptops,putDesktops,deleteTablets,deleteMonitors, } = require('./controller');
+const { register,login,getUsers,getElectronicsDepartment, getElectronicsCategory, getDesktops, getTablets, getMonitors, postComputers, getComputerComponents, postNewProducts, postTablets,postMonitors, postNewDepartment,getMainElectronics,getSamasung,getIphone,getHuawei,putLaptops,putDesktops,deleteTablets,deleteMonitors, } = require('./controller');
 const {authentication, authorization, creatComputerComponents, creatCellPhones,} = require('./middlewares');
 const { users, roles, ELECTRONICS, laptops, desktops, tablets, monitors, } = require('./models');
 const authRouter = express.Router();
@@ -28,7 +28,7 @@ authRouter.post('/login', async (req, res) => {
   }
 });
 
-authRouter.get('/Electronics',async  (req, res, next) => {
+authRouter.get('/Electronics/',async  (req, res, next) => {
   try {
     res.json(await getMainElectronics());
   } catch (err) {
@@ -44,9 +44,9 @@ authRouter.get('/Electronics/:index', async (req, res, next) => {
   }
 });
 
-authRouter.get('/Electronics/Computers/:index', async (req, res, next) => {
+authRouter.get('/Electronics/:id/:index', async (req, res, next) => {
   try {
-    res.json(await getComputersCategory(req.params.index));
+    res.json(await getElectronicsCategory(req.params.index.toLowerCase()));
   } catch (err) {
     throw err;
   }
@@ -60,25 +60,19 @@ authRouter.post('/COMPUTERS', creatComputerComponents , authorization, async (re
   }
 });
 
-// authRouter.get('/COMPUTERS/computerComponents', async (req, res, next) => {
-//   try {
-//     res.json(await getComputerComponents(req.body));
-//   } catch (err) {
-//     throw err;
-//   }
-// }); 
 
-authRouter.post('/Electronics/Computers/:index', async (req, res, next) => {
+
+authRouter.post('/Electronics/:id/:index', async (req, res, next) => {
   try {
-    res.json(await postNewProducts(req.body.newProducts,req.params.index));
+    res.json(await postNewProducts(req.body.newProducts,req.params.id.toLowerCase(),req.params.index.toLowerCase()));
   } catch (err) {
     throw err;
   }
 });
 
-authRouter.post('/', creatCellPhones,authorization,async  (req, res, next) => {
+authRouter.post('/Electronics/:id', async  (req, res, next) => {
   try {
-    res.json(await postElectronics(req.body));
+    res.json(await postNewDepartment(req.body.newProducts,req.params.id.toLowerCase()));
   } catch (err) {
     throw err;
   }

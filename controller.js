@@ -54,97 +54,53 @@ const getMainElectronics = async () => {
 }
 
 const getElectronicsDepartment = async (id) => {
-  const categories = [];
+  const departmentsArray = [];
   for (let i = 0; i < products.length; i++) {
     if (products[i].department.toLowerCase() === id.toLowerCase()) {
-      if (categories.indexOf(products[i].category) === -1) {
-        categories.push(products[i].category);
+      if (departmentsArray.indexOf(products[i].category) === -1) {
+        departmentsArray.push(products[i].category);
       }
     }
   }
-  if (!categories.length) {
+  if (!departmentsArray.length) {
     return "Sorry this department is not available yet";
   }
-  return await categories;
+  return await departmentsArray;
 };
 
 
-const getComputersCategory = async (id) => {
+const getElectronicsCategory = async (id) => {
   const categories = [];
   for (let i = 0; i < products.length; i++) {
-    if (products[i].category.toLowerCase() === id.toLowerCase()) {
+    if (products[i].category.toLowerCase() === id) {
       categories.push(products[i].product + ": " + products[i].price);
     }
   }
   if (!categories.length) {
-    return "Sorry this product is not available yet";
+    return "Sorry this category is not available yet";
   }
   return await categories;
 };
 
-const postComputers = async () => {
-  const categories = [];
-  for (let k in ELECTRONICS[0].departments) {
-    categories.push(k);
-  }
-  return await categories;
-};
-
-// const getComputerComponents = async () => {
-//   const products = [];
-//   computerComponents = ELECTRONICS[0].departments[4]
-//   for (let i = 1; i < computerComponents.length; i++) {
-//     products.push(computerComponents[i].product + ' : ' + computerComponents[i].price);
-//   }
-//   return await products;
-// } 
-
-const postNewProducts = async (body, id) => {
+const postNewProducts = async (body, id, type) => {
+  let countOfPushProcesses = 0 ; 
   for (let i = 0; i < body.length; i++) {
-    if (body[i].category.toLowerCase() === id.toLowerCase()) {
+    if (body[i].category.toLowerCase() === type && body[i].department.toLowerCase() === id ) {
+      products.push(body[i]);
+      countOfPushProcesses++;
+    }
+  }
+  if ( countOfPushProcesses === 0 ) return "Sorry you can't add product in wrong classification" ; 
+  return await "Successfully add a new product";
+}
+
+const postNewDepartment = async (body,id) => {
+  for (let i = 0; i < body.length; i++) {
+    if (body[i].department.toLowerCase() === id ) {
       products.push(body[i]);
     }
   }
   return await "Successfully add a new product";
-}
-
-const postElectronics = async () => {
-  return await ELECTRONICS[ELECTRONICS.length - 1];
-}
-
-const getSamasung = async () => {
-  const products = [];
-  SAMSUNG = ELECTRONICS[ELECTRONICS.length - 1].departments[0];
-  for (let i = 1; i < SAMSUNG.length; i++) {
-    products.push(SAMSUNG[i].product + ' : ' + SAMSUNG[i].price);
-  }
-  return await products;
-}
-
-const getIphoneAndHuawi = async (type) => {
-  const products = [];
-  resut = ELECTRONICS[ELECTRONICS.length - 1].departments[0];
-  for (let i = 1; i < resut.length; i++) {
-    products.push(resut[i].product + ' : ' + resut[i].price);
-  }
-  return await products;
-}
-const getIphone = async () => {
-  const products = [];
-  IPHONE = ELECTRONICS[ELECTRONICS.length - 1].departments[1];
-  for (let i = 1; i < IPHONE.length; i++) {
-    products.push(IPHONE[i].product + ' : ' + IPHONE[i].price);
-  }
-  return await products;
-}
-
-const getHuawei = async () => {
-  const products = [];
-  HUAWEI = ELECTRONICS[ELECTRONICS.length - 1].departments[2];
-  for (let i = 1; i < HUAWEI.length; i++) {
-    products.push(HUAWEI[i].product + ' : ' + HUAWEI[i].price);
-  }
-  return await products;
 }
 
 const putLaptops = async (body) => {
@@ -206,18 +162,19 @@ module.exports = {
   getMainElectronics,
   // getComputers,
   getElectronicsDepartment,
-  getComputersCategory,
+  getElectronicsCategory,
   // getLaptops,
   // getDesktops,
   // getTablets,
   // getMonitors,
-  postComputers,
+  // postComputers,
   // getComputerComponents,
   postNewProducts,
+  postNewDepartment,
   // postLaptops,
   // postTablets,
   // postMonitors,
-  postElectronics,
+  // postElectronics,
   // getCellPhones,
   getSamasung,
   getIphone,
