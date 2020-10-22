@@ -1,3 +1,4 @@
+const { query } = require('express');
 const express = require('express');
 const { register,login,getUsers,getElectronicsDepartment, getElectronicsCategory, getDesktops, getTablets, getMonitors, postComputers, getComputerComponents, postNewProducts, postTablets,postMonitors, postNewDepartment,getMainElectronics,getSamasung,getIphone,getHuawei,putLaptops,putDesktops,deleteTablets,deleteMonitors, } = require('./controller');
 const {authentication, authorization, creatComputerComponents, creatCellPhones,} = require('./middlewares');
@@ -52,15 +53,6 @@ authRouter.get('/Electronics/:id/:index', async (req, res, next) => {
   }
 });
 
-authRouter.post('/COMPUTERS', creatComputerComponents , authorization, async (req, res, next) => {
-  try {
-    res.json(await postComputers(req.body));
-  } catch (err) {
-    throw err;
-  }
-});
-
-
 
 authRouter.post('/Electronics/:id/:index', async (req, res, next) => {
   try {
@@ -78,65 +70,9 @@ authRouter.post('/Electronics/:id', async  (req, res, next) => {
   }
 });
 
-
-//                 ?type=laptop
-//                 ?type=desktop
-authRouter.get('/get', async (req, res) => {
+authRouter.put('/Electronics',async (req, res, next) => {
   try {
-    res.json(await getCellPhones(req.body));
-  } catch (err) {
-    throw err;
-  }
-});
-
-
-authRouter.get('/cellPhones/SAMSUNG',async  (req, res, next) => {
- try {
-    res.json(await getSamasung(req.body));
-  } catch (err) {
-    throw err;
-  }
-});
-
-authRouter.get('/cellPhones/IPHONE', async (req, res, next) => {
-  try {
-    res.json(await getIphone(req.body));
-  } catch (err) {
-    throw err;
-  }
-});
-
-authRouter.get('/cellPhones/HUAWEI', async (req, res, next) => {
-  try {
-    res.json(await getHuawei(req.body));
-  } catch (err) {
-    throw err;
-  }
-});
-
-
-
-authRouter.put('/:id', authorization,async (req, res, next) => {
-  try {
-    res.json(await putLaptops(req.body));
-  } catch (err) {
-    throw err;
-  }
-});
-
-
-
-authRouter.put('/COMPUTERS/laptops', authorization,async (req, res, next) => {
-  try {
-    res.json(await putLaptops(req.body));
-  } catch (err) {
-    throw err;
-  }
-});
-
-authRouter.put('/COMPUTERS/desktops', authorization,async (req, res, next) => {
-  try {
-    res.json(await putDesktops(req.body));
+    res.json(await discountProducts(req.query.price));
   } catch (err) {
     throw err;
   }

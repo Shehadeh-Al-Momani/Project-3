@@ -22,7 +22,6 @@ const register = async (user) => {
   }
 };
 
-// bcrypt.compare(password, hashedPassword, (err, result) => {}
 const login = async (user) => {
   const savedUser = users.filter((element) => element.email === user.email);
   if (!savedUser.length) {
@@ -40,7 +39,6 @@ const login = async (user) => {
     }
   }
 };
-
 //"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im9tYXJAZ21haWwuY29tIiwicGVybWlzc2lvbnMiOlsiciIsInciXSwiaWF0IjoxNjAzMjkxNzAwfQ.kpSA3n8XEU8ci5fHTH1zBpQ5eq6oJISaS88zfyHU0Tw"
 
 const getMainElectronics = async () => {
@@ -73,7 +71,7 @@ const getElectronicsCategory = async (id) => {
   const categories = [];
   for (let i = 0; i < products.length; i++) {
     if (products[i].category.toLowerCase() === id) {
-      categories.push(products[i].product + ": " + products[i].price);
+      categories.push(products[i].product + ": " + products[i].price+'$');
     }
   }
   if (!categories.length) {
@@ -103,30 +101,14 @@ const postNewDepartment = async (body,id) => {
   return await "Successfully add a new product";
 }
 
-const putLaptops = async (body) => {
-  const products = [];
-  for (let i = 0; i < laptops.length; i++) {
-    if (laptops[i].price >= body.price) {
-      laptops[i].price = 0.9 * laptops[i].price;
+const discountProducts = async (id) => {
+  const discount = [];
+  for (let i = 0; i < products.length; i++) {
+    if (products[i].price >= id) {
+      discountProducts.push(products[i].product + ' : ' + products[i].price * 0.8+'$')
     }
   }
-  for (let i = 1; i < laptops.length; i++) {
-    products.push(laptops[i].product + ' : ' + laptops[i].price);
-  }
-  return await products;
-};
-
-const putDesktops = async (body) => {
-  const products = [];
-  for (let i = 0; i < desktops.length; i++) {
-    if (desktops[i].price >= body.price) {
-      desktops[i].price = 0.9 * desktops[i].price;
-    }
-  }
-  for (let i = 1; i < desktops.length; i++) {
-    products.push(desktops[i].product + ' : ' + desktops[i].price);
-  }
-  return await products;
+   return await discount;
 };
 
 const deleteTablets = async (body) => {
@@ -176,11 +158,11 @@ module.exports = {
   // postMonitors,
   // postElectronics,
   // getCellPhones,
-  getSamasung,
-  getIphone,
-  getHuawei,
-  putLaptops,
-  putDesktops,
+  // getSamasung,
+  // getIphone,
+  // getHuawei,
+  discountProducts,
+  // putDesktops,
   deleteTablets,
   deleteMonitors,
 };
