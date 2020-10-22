@@ -23,41 +23,6 @@ const authorization = async (req, res, next) => {
   }
 };
 
-const creatComputerComponents = (req, res, next) => {
-  const computerComponents = [{ discription: "Computer Components" }];
-  for (k in req.body) {
-    computerComponents.push({ id: k, product: req.body[k].product, price: req.body[k].price });
-  }
-  ELECTRONICS[0].departments.push(computerComponents)
-  next();
-};
-
-
-const creatCellPhones = (req, res, next) => {
-  ELECTRONICS.push({ id: ELECTRONICS.length, category: req.body.category, departments: [] })
-  const samsung = [{ discription: "SAMSUNG" }];
-  const objSamsung = req.body.samsung
-  for (k in objSamsung) {
-    samsung.push({ id: k, product: objSamsung[k].product, price: objSamsung[k].price });
-  }
-  ELECTRONICS[ELECTRONICS.length - 1].departments.push(samsung)
-
-  const iphon = [{ discription: "IPHONE" }];
-  const objIphon = req.body.iphon
-  for (k in objIphon) {
-    iphon.push({ id: k, product: objIphon[k].product, price: objIphon[k].price });
-  }
-  ELECTRONICS[ELECTRONICS.length - 1].departments.push(iphon)
-
-  const huawei = [{ discription: "HUAWEI" }];
-  const objHuawei = req.body.huawei
-  for (k in objHuawei) {
-    huawei.push({ id: k, product: objHuawei[k].product, price: objHuawei[k].price });
-  }
-  ELECTRONICS[ELECTRONICS.length - 1].departments.push(huawei)
-  next();
-};
-
 module.exports = {
   authentication,
   authorization,

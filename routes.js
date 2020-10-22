@@ -1,8 +1,7 @@
 const { query } = require('express');
 const express = require('express');
-const { register,login,getUsers,getElectronicsDepartment, getElectronicsCategory, getDesktops, getTablets, getMonitors, postComputers, getComputerComponents, postNewProducts, postTablets,postMonitors, postNewDepartment,getMainElectronics,getSamasung,getIphone,getHuawei,putLaptops,putDesktops,deleteTablets,deleteMonitors, } = require('./controller');
-const {authentication, authorization, creatComputerComponents, creatCellPhones,} = require('./middlewares');
-const { users, roles, ELECTRONICS, laptops, desktops, tablets, monitors, } = require('./models');
+const { register,login,getUsers,getElectronicsDepartment, postNewDepartment,getMainElectronics,getElectronicsCategory,postNewProducts, discountProducts, deleteProducts,} = require('./controller');
+const {authentication, authorization,} = require('./middlewares');
 const authRouter = express.Router();
 
 authRouter.get('/users', async (req, res) => {
@@ -78,17 +77,9 @@ authRouter.put('/Electronics',async (req, res, next) => {
   }
 });
 
-authRouter.delete('/COMPUTERS/tablets',authorization, async(req, res, next) => {
+authRouter.delete('/Electronics', async(req, res, next) => {
   try {
-    res.json(await deleteTablets(req.body));
-  } catch (err) {
-    throw err;
-  }
-});
-
-authRouter.delete('/COMPUTERS/monitors',authorization, async  (req, res, next) => {
-  try {
-    res.json(await deleteMonitors(req.body));
+    res.json(await deleteProducts(req.query.version));
   } catch (err) {
     throw err;
   }

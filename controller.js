@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { users, roles, products, ELECTRONICS, laptops, desktops, tablets, monitors, } = require('./models');
+const { users, roles, products} = require('./models');
 const SALT = Number(process.env.SALT);
 const getUsers = () => {
   return users;
@@ -71,7 +71,7 @@ const getElectronicsCategory = async (id) => {
   const categories = [];
   for (let i = 0; i < products.length; i++) {
     if (products[i].category.toLowerCase() === id) {
-      categories.push(products[i].product + ": " + products[i].price+'$');
+      categories.push(products[i].product + ": " + products[i].price + '$');
     }
   }
   if (!categories.length) {
@@ -81,20 +81,20 @@ const getElectronicsCategory = async (id) => {
 };
 
 const postNewProducts = async (body, id, type) => {
-  let countOfPushProcesses = 0 ; 
+  let countOfPushProcesses = 0;
   for (let i = 0; i < body.length; i++) {
-    if (body[i].category.toLowerCase() === type && body[i].department.toLowerCase() === id ) {
+    if (body[i].category.toLowerCase() === type && body[i].department.toLowerCase() === id) {
       products.push(body[i]);
       countOfPushProcesses++;
     }
   }
-  if ( countOfPushProcesses === 0 ) return "Sorry you can't add product in wrong classification" ; 
+  if (countOfPushProcesses === 0) return "Sorry you can't add product in wrong classification";
   return await "Successfully add a new product";
 }
 
-const postNewDepartment = async (body,id) => {
+const postNewDepartment = async (body, id) => {
   for (let i = 0; i < body.length; i++) {
-    if (body[i].department.toLowerCase() === id ) {
+    if (body[i].department.toLowerCase() === id) {
       products.push(body[i]);
     }
   }
@@ -105,36 +105,21 @@ const discountProducts = async (id) => {
   const discount = [];
   for (let i = 0; i < products.length; i++) {
     if (products[i].price >= id) {
-      discountProducts.push(products[i].product + ' : ' + products[i].price * 0.8+'$')
+      discount.push(products[i].product + ' : ' + products[i].price * 0.8 + '$')
     }
   }
-   return await discount;
+  return await discount;
 };
 
-const deleteTablets = async (body) => {
-  const products = [];
-  for (let i = 0; i < tablets.length; i++) {
-    if (tablets[i].price >= body.price) {
-      tablets.slice(i, 1);
+const deleteProducts = async (body) => {
+  const deleted = [];
+  for (let i = 0; i < products.length; i++) {
+    if (products[i].version <= body) {
+      products.splice(i, 1);
+      deleted.push(products.splice(i, 1));
     }
-  }
-  for (let i = 1; i < tablets.length; i++) {
-    products.push(tablets[i].product + ' : ' + tablets[i].price);
-  }
-  return await products;
-};
-
-const deleteMonitors = async (body) => {
-  const products = [];
-  for (let i = 0; i < monitors.length; i++) {
-    if (monitors[i].price >= body.price) {
-      monitors.slice(i, 1);
-    }
-  }
-  for (let i = 1; i < monitors.length; i++) {
-    products.push(monitors[i].product + ' : ' + monitors[i].price);
-  }
-  return await products;
+  } 
+  return await deleted;
 };
 
 module.exports = {
@@ -142,27 +127,10 @@ module.exports = {
   login,
   getUsers,
   getMainElectronics,
-  // getComputers,
   getElectronicsDepartment,
   getElectronicsCategory,
-  // getLaptops,
-  // getDesktops,
-  // getTablets,
-  // getMonitors,
-  // postComputers,
-  // getComputerComponents,
   postNewProducts,
   postNewDepartment,
-  // postLaptops,
-  // postTablets,
-  // postMonitors,
-  // postElectronics,
-  // getCellPhones,
-  // getSamasung,
-  // getIphone,
-  // getHuawei,
   discountProducts,
-  // putDesktops,
-  deleteTablets,
-  deleteMonitors,
+  deleteProducts,
 };
