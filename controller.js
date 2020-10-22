@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { users, roles, ELECTRONICS, laptops, desktops, tablets, monitors, } = require('./models');
+const { users, roles, products, ELECTRONICS, laptops, desktops, tablets, monitors, } = require('./models');
 const SALT = Number(process.env.SALT);
 
 const getUsers = () => {
@@ -41,14 +41,26 @@ const login = async (user) => {
     }
   }
 };
- 
+
 //"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im9tYXJAZ21haWwuY29tIiwicGVybWlzc2lvbnMiOlsiciIsInciXSwiaWF0IjoxNjAzMjkxNzAwfQ.kpSA3n8XEU8ci5fHTH1zBpQ5eq6oJISaS88zfyHU0Tw"
 const getComputers = async () => {
   const categories = [];
-  for (let i = 0; i < ELECTRONICS[0].departments.length; i++) {
-    categories.push(ELECTRONICS[0].departments[i][0].discription);
+  for (let i = 1; i < products.length; i++) {
+    if (categories.indexOf(products[i].department) === -1) {
+      categories.push(products[i].department);
+    }
   }
   return await categories;
+};
+
+//                         'laptop'
+const getAll = async (typeToFind) => {
+  // filter produt on this type
+  const products = [];
+  for (let i = 1; i < laptops.length; i++) {
+    products.push(laptops[i].product + ' : ' + laptops[i].price);
+  }
+  return await products;
 };
 
 const getLaptops = async () => {
@@ -85,8 +97,8 @@ const getMonitors = async () => {
 
 const postComputers = async () => {
   const categories = [];
-  for (let i = 0; i < ELECTRONICS[0].departments.length; i++) {
-    categories.push(ELECTRONICS[0].departments[i][0].discription);
+  for (let k in ELECTRONICS[0].departments) {
+    categories.push(k);
   }
   return await categories;
 };
@@ -124,17 +136,20 @@ const postElectronics = async () => {
 
 const getElectronics = async () => {
   const categories = [];
-  for (let i = 0; i < ELECTRONICS.length; i++) {
-    categories.push(ELECTRONICS[i].category);
+  for (let i = 1; i < products.length; i++) {
+    if (categories.indexOf(products[i].department) === -1) {
+      categories.push(products[i].department);
+    }
   }
   return await categories;
 }
 
 const getCellPhones = async () => {
   const categories = [];
-  for (let i = 0; i < ELECTRONICS[ELECTRONICS.length - 1].departments.length; i++) {
-    categories.push(ELECTRONICS[ELECTRONICS.length - 1].departments[i][0].discription);
+  for (let k in ELECTRONICS[ELECTRONICS.length - 1].departments) {
+    categories.push(k);
   }
+
   return await categories;
 }
 
@@ -147,9 +162,17 @@ const getSamasung = async () => {
   return await products;
 }
 
+const getIphoneAndHuawi = async (type) => {
+  const products = [];
+  resut = ELECTRONICS[ELECTRONICS.length - 1].departments[0];
+  for (let i = 1; i < resut.length; i++) {
+    products.push(resut[i].product + ' : ' + resut[i].price);
+  }
+  return await products;
+}
 const getIphone = async () => {
   const products = [];
-  IPHONE = ELECTRONICS[ELECTRONICS.length - 1].departments[0];
+  IPHONE = ELECTRONICS[ELECTRONICS.length - 1].departments[1];
   for (let i = 1; i < IPHONE.length; i++) {
     products.push(IPHONE[i].product + ' : ' + IPHONE[i].price);
   }
@@ -158,7 +181,7 @@ const getIphone = async () => {
 
 const getHuawei = async () => {
   const products = [];
-  HUAWEI = ELECTRONICS[ELECTRONICS.length - 1].departments[0];
+  HUAWEI = ELECTRONICS[ELECTRONICS.length - 1].departments[2];
   for (let i = 1; i < HUAWEI.length; i++) {
     products.push(HUAWEI[i].product + ' : ' + HUAWEI[i].price);
   }

@@ -41,24 +41,37 @@ const roles = [
     type: 'user',
   },
 ];
-
-// const ROLE = {
-//   ADMIN: "admin",
-//   DOCTOR: "doctor",
-//   STUDENT: "student",
-// };
+const products = [
+  { id: 0,  product: "office laptops", pcrice: 600, category:'laptops' , department:"Computers" },
+  { id: 1,  product: "Windows Laptop", price: 800, category: 'laptops' , department:"Computers" },
+  { id: 10, product: "Tower desktops", price: 500, category: 'desktops' , department:"Computers" },
+  { id: 11, product: "All-in-One",     price: 700, category: 'desktops' , department:"Computers" },
+  { id: 20, product: "Windows Tablets",price: 300, category: 'Tablets' , department:"Computers" },
+  { id: 21, product: "Ios Tablets",    price: 400, category: 'Tablets' , department:"Computers" },
+  { id: 30, product: "4K & UHD",       price: 100, category: 'Monitors' , department:"Computers" },
+  { id: 31, product: "Curved ",        price: 300, category: 'Monitors' , department:"Computers" },
+  { id: 50, product: "Samsung Note20", price: 1000, category: 'Samsung' , department:"Cell Phones" },
+  { id: 51, product: "Samsung S20",    price: 800, category: 'Samsung' , department:"Cell Phones" },
+  { id: 60, product: "iphonX",         price: 700, category: 'Iphon' , department:"Cell Phones" },
+  { id: 61, product: "iphon10",        price: 300, category: 'Iphon' , department:"Cell Phones" },
+  { id: 70, product: "mate 40 pro",    price: 800, category: 'Huawei' , department:"Cell Phones" },
+  { id: 71, product: "P40 pro",        price: 800, category: 'Huawei' , department:"Cell Phones" },
+  { id: 40, product: "Memory",         price: 50, category: 'Components' , department:"Computers" },
+  { id: 41, product: "Drives",         price: 100, category: 'Components' , department:"Computers" },
+  { id: 42, product: "Graphics Cards", price: 400, category: 'Components' , department:"Computers" },
+  { id: 43, product: "Motherboards",   price: 400, category: 'Components' , department:"Computers" },
+  { id: 44, product: "Processors",     price: 300, category: 'Components' , department:"Computers" },
+]
 
 const laptops = [
   { discription: "Laptops" },
-  { id: 0, product: "Traditional laptops", price: 600 },
-  { id: 1, product: "Windows Laptop", price: 800 },
   // { id: 2, product: "MacBooks", price: 1200 },
 ]
 const desktops = [
   { discription: "Desktops" },
   { id: 0, product: "Tower", price: 500 },
   { id: 1, product: "All-in-One", price: 700 },
-  { id: 2, product: "Mac Desktops", price: 1000 },
+  // { id: 2, product: "Mac Desktops", price: 1000 },
 ]
 const tablets = [
   { discription: "Tablets" },
@@ -73,7 +86,7 @@ const monitors = [
   // { id: 2, product: "Gaming Monitors", price: 150 },
 ]
 const ELECTRONICS = [
-  { id: 0, category: "COMPUTERS", departments: [laptops, desktops, tablets, monitors] /*computerComponents */ },
+  { id: 0, category: "COMPUTERS", departments: { laptops, desktops, tablets, monitors } /*computerComponents */ },
   // { id: 1, category: "Cell Phones", departments: [samsung, iphon, huawei] },
   // { id: 2, category: "TV & Video", departments: [televisions, projectors, satellite] },
   // { id: 3, category: "Video Games Console", departments: [ps, xbox] },
@@ -82,6 +95,7 @@ const ELECTRONICS = [
 module.exports = {
   users,
   roles,
+  products,
   ELECTRONICS,
   laptops,
   desktops,

@@ -123,7 +123,15 @@ authRouter.get('/',async  (req, res, next) => {
     throw err;
   }
 });
-
+//                 ?type=laptop
+//                 ?type=desktop
+authRouter.get('/get', async (req, res) => {
+  try {
+    res.json(await getCellPhones(req.body));
+  } catch (err) {
+    throw err;
+  }
+});
 authRouter.get('/cellPhones', async (req, res) => {
   try {
     res.json(await getCellPhones(req.body));
@@ -155,6 +163,18 @@ authRouter.get('/cellPhones/HUAWEI', async (req, res, next) => {
     throw err;
   }
 });
+
+
+
+authRouter.put('/:id', authorization,async (req, res, next) => {
+  try {
+    res.json(await putLaptops(req.body));
+  } catch (err) {
+    throw err;
+  }
+});
+
+
 
 authRouter.put('/COMPUTERS/laptops', authorization,async (req, res, next) => {
   try {
