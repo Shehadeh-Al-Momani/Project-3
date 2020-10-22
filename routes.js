@@ -1,5 +1,5 @@
 const express = require('express');
-const { register,login,getUsers,getComputers , getLaptops, getDesktops, getTablets, getMonitors, postComputers, getComputerComponents, postLaptops, postTablets,postMonitors, postElectronics,getElectronics,getCellPhones,getSamasung,getIphone,getHuawei,putLaptops,putDesktops,deleteTablets,deleteMonitors, } = require('./controller');
+const { register,login,getUsers,getElectronicsDepartment, getComputersCategory, getDesktops, getTablets, getMonitors, postComputers, getComputerComponents, postNewProducts, postTablets,postMonitors, postElectronics,getMainElectronics,getSamasung,getIphone,getHuawei,putLaptops,putDesktops,deleteTablets,deleteMonitors, } = require('./controller');
 const {authentication, authorization, creatComputerComponents, creatCellPhones,} = require('./middlewares');
 const { users, roles, ELECTRONICS, laptops, desktops, tablets, monitors, } = require('./models');
 const authRouter = express.Router();
@@ -28,41 +28,25 @@ authRouter.post('/login', async (req, res) => {
   }
 });
 
-authRouter.get('/COMPUTERS', async (req, res, next) => {
+authRouter.get('/Electronics',async  (req, res, next) => {
   try {
-    res.json(await getComputers());
+    res.json(await getMainElectronics());
   } catch (err) {
     throw err;
   }
 });
 
-authRouter.get('/COMPUTERS/laptops', async (req, res, next) => {
+authRouter.get('/Electronics/:index', async (req, res, next) => {
   try {
-    res.json(await getLaptops());
+    res.json(await getElectronicsDepartment(req.params.index));
   } catch (err) {
     throw err;
   }
 });
 
-authRouter.get('/COMPUTERS/desktops',async (req, res, next) => {
+authRouter.get('/Electronics/Computers/:index', async (req, res, next) => {
   try {
-    res.json(await getDesktops(req.body));
-  } catch (err) {
-    throw err;
-  }
-});
-
-authRouter.get('/COMPUTERS/tablets',async (req, res, next) => {
-  try {
-    res.json(await getTablets(req.body));
-  } catch (err) {
-    throw err;
-  }
-});
-
-authRouter.get('/COMPUTERS/monitors',async (req, res, next) => {
-  try {
-    res.json(await getMonitors(req.body));
+    res.json(await getComputersCategory(req.params.index));
   } catch (err) {
     throw err;
   }
@@ -76,33 +60,17 @@ authRouter.post('/COMPUTERS', creatComputerComponents , authorization, async (re
   }
 });
 
-authRouter.get('/COMPUTERS/computerComponents', async (req, res, next) => {
-  try {
-    res.json(await getComputerComponents(req.body));
-  } catch (err) {
-    throw err;
-  }
-}); 
+// authRouter.get('/COMPUTERS/computerComponents', async (req, res, next) => {
+//   try {
+//     res.json(await getComputerComponents(req.body));
+//   } catch (err) {
+//     throw err;
+//   }
+// }); 
 
-authRouter.post('/COMPUTERS/laptops',authorization, async (req, res, next) => {
+authRouter.post('/Electronics/Computers/:index', async (req, res, next) => {
   try {
-    res.json(await postLaptops(req.body));
-  } catch (err) {
-    throw err;
-  }
-});
-
-authRouter.post('/COMPUTERS/tablets',authorization,async  (req, res, next) => {
-  try {
-    res.json(await postTablets(req.body));
-  } catch (err) {
-    throw err;
-  }
-});
-
-authRouter.post('/COMPUTERS/monitors', authorization,async (req, res, next) => {
-  try {
-    res.json(await postMonitors(req.body));
+    res.json(await postNewProducts(req.body.newProducts,req.params.index));
   } catch (err) {
     throw err;
   }
@@ -116,13 +84,7 @@ authRouter.post('/', creatCellPhones,authorization,async  (req, res, next) => {
   }
 });
 
-authRouter.get('/',async  (req, res, next) => {
-  try {
-    res.json(await getElectronics(req.body));
-  } catch (err) {
-    throw err;
-  }
-});
+
 //                 ?type=laptop
 //                 ?type=desktop
 authRouter.get('/get', async (req, res) => {
@@ -132,13 +94,7 @@ authRouter.get('/get', async (req, res) => {
     throw err;
   }
 });
-authRouter.get('/cellPhones', async (req, res) => {
-  try {
-    res.json(await getCellPhones(req.body));
-  } catch (err) {
-    throw err;
-  }
-});
+
 
 authRouter.get('/cellPhones/SAMSUNG',async  (req, res, next) => {
  try {
@@ -213,14 +169,14 @@ authRouter.all("*", (req, res, next) => {
   newErr.status = 404;
   next(newErr);
 });
-const handleAll = (err, req, res, next) => {
+const handleAllNotExist = (err, req, res, next) => {
   res.status(err.status).json({
     error: {
       message: err.message,
     },
   });
 };
-authRouter.use(handleAll);
+authRouter.use(handleAllNotExist);
 
 module.exports =authRouter
 
