@@ -67,46 +67,11 @@ const products = [
   // { id: 32 ,version: 2020, product: "Gaming Monitors",   price: 150, category: 'Monitors' , department:"Computers" },
 ]
 
-const laptops = [
-  { discription: "Laptops" },
-  // { id: 2016, product: "MacBooks", price: 1200 },
-]
-const desktops = [
-  { discription: "Desktops" },
-  { id: 0, product: "Tower", price: 500 },
-  { id: 1, product: "All-in-One", price: 700 },
-  // { id: 2, product: "Mac Desktops", price: 1000 },
-]
-const tablets = [
-  { discription: "Tablets" },
-  { id: 0, product: "Windows Tablets", price: 300 },
-  { id: 1, product: "Ios Tablets", price: 400 },
-  // { id: 2, product: "Android Tablets", price: 200 },
-]
-const monitors = [
-  { discription: "Monitors" },
-  { id: 0, product: "4K & UHD", price: 100 },
-  { id: 1, product: "Curved", price: 300 },
-  // { id: 2, product: "Gaming Monitors", price: 150 },
-]
-const ELECTRONICS = [
-  { id: 0, category: "COMPUTERS", departments: { laptops, desktops, tablets, monitors } /*computerComponents */ },
-  // { id: 1, category: "Cell Phones", departments: [samsung, iphon, huawei] },
-  // { id: 2, category: "TV & Video", departments: [televisions, projectors, satellite] },
-  // { id: 3, category: "Video Games Console", departments: [ps, xbox] },
-]
-
 module.exports = {
   users,
   roles,
   products,
-  ELECTRONICS,
-  laptops,
-  desktops,
-  tablets,
-  monitors,
 };
-
 
   //  const UserSchema = new mongoose.Schema({
   //   name: {type: String},
@@ -128,3 +93,123 @@ module.exports = {
   // }
 
   // const User = mongoose.model('User', UserSchema);
+
+
+  // on postman 
+
+//   {
+//     "newProducts": [
+//         {
+//             "id": 2,
+//             "version": 2018,
+//             "product": "MacBooks",
+//             "price": 1200,
+//             "category": "laptops",
+//             "department": "Computers"
+//         },
+//         {
+//             "id": 22,
+//             "version": 2018,
+//             "product": "Android Tablet",
+//             "price": 200,
+//             "category": "Tablets",
+//             "department": "Computers"
+//         },
+//         {
+//             "id": 32,
+//             "version": 2018,
+//             "product": "Gaming Monitors",
+//             "price": 150,
+//             "category": "Monitors",
+//             "department": "Computers"
+//         },
+//         {
+//             "id": 40,
+//             "version": 2018,
+//             "product": "Memory",
+//             "price": 50,
+//             "category": "Components",
+//             "department": "Computers"
+//         },
+//         {
+//             "id": 41,
+//             "version": 2018,
+//             "product": "Drives",
+//             "price": 100,
+//             "category": "Components",
+//             "department": "Computers"
+//         },
+//         {
+//             "id": 42,
+//             "version": 2018,
+//             "product": "Graphics Cards",
+//             "price": 400,
+//             "category": "Components",
+//             "department": "Computers"
+//         },
+//         {
+//             "id": 43,
+//             "version": 2018,
+//             "product": "Motherboards",
+//             "price": 400,
+//             "category": "Components",
+//             "department": "Computers"
+//         },
+//         {
+//             "id": 44,
+//             "version": 2018,
+//             "product": "Processors",
+//             "price": 300,
+//             "category": "Components",
+//             "department": "Computers"
+//         },
+//         {
+//             "id": 50,
+//             "version": 2018,
+//             "product": "Samsung Note20",
+//             "price": 1000,
+//             "category": "Samsung",
+//             "department": "Cell Phones"
+//         },
+//         {
+//             "id": 51,
+//             "version": 2018,
+//             "product": "Samsung S20",
+//             "price": 800,
+//             "category": "Samsung",
+//             "department": "Cell Phones"
+//         },
+//         {
+//             "id": 60,
+//             "version": 2018,
+//             "product": "iphonX",
+//             "price": 1200,
+//             "category": "Iphon",
+//             "department": "Cell Phones"
+//         },
+//         {
+//             "id": 61,
+//             "version": 2018,
+//             "product": "iphon10",
+//             "price": 900,
+//             "category": "Iphon",
+//             "department": "Cell Phones"
+//         },
+//         {
+//             "id": 70,
+//             "version": 2018,
+//             "product": "Huawei mate 40 pro",
+//             "price": 800,
+//             "category": "Huawei",
+//             "department": "Cell Phones"
+//         },
+//         {
+//             "id": 71,
+//             "version": 2018,
+//             "product": "Huawei P40 pro",
+//             "price": 700,
+//             "category": "Huawei",
+//             "department": "Cell Phones"
+//         }
+//     ]
+// }

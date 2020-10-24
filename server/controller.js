@@ -1,7 +1,11 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { users, roles, products} = require('./models');
+const { users, roles, products } = require('./models');
+const ProductsModel = require('./../db/productsSchema');
+const UsersModel = require('./../db/usersSchema');
+const RolesModel = require('./../db/rolesSchema');
 const SALT = Number(process.env.SALT);
+
 const getUsers = () => {
   return users;
 };
@@ -16,7 +20,7 @@ const register = async (user) => {
       role_id: user.id,
     }
     users.push(newUser);
-    return newUser;
+    return await newUser;
   } else {
     return 'User already exists';
   }
@@ -31,7 +35,7 @@ const login = async (user) => {
       const savedRole = roles.filter((element) => element.id === savedUser[0].role_id);
       const payload = {
         email: savedUser[0].email,
-        role: savedRole[0].role,
+        role: savedRole[0].type,
       };
       return await jwt.sign(payload, process.env.SECRET);
     } else {
@@ -39,7 +43,6 @@ const login = async (user) => {
     }
   }
 };
-//"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im9tYXJAZ21haWwuY29tIiwicGVybWlzc2lvbnMiOlsiciIsInciXSwiaWF0IjoxNjAzMjkxNzAwfQ.kpSA3n8XEU8ci5fHTH1zBpQ5eq6oJISaS88zfyHU0Tw"
 
 const getMainElectronics = async () => {
   const categories = [];
@@ -118,7 +121,7 @@ const deleteProducts = async (body) => {
       products.splice(i, 1);
       deleted.push(products.splice(i, 1));
     }
-  } 
+  }
   return await deleted;
 };
 

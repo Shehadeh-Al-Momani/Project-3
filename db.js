@@ -6,6 +6,16 @@ const options = {
   useCreateIndex: true,
   useUnifiedTopology: true,
 };
+
+mongoose
+  .connect(process.env.DB_URL, options)
+  .then(() => {
+    console.log('DB READY TO USE');
+  })
+  .catch((err) => {
+    console.log('ERR: ', err);
+  });
+  
 // connecting mongoose
 // const DB_URL = 'mongodb://localhost:27017/omega';
 // const connection = mongoose.connect( process.env.DB_URI, options).then(
@@ -18,13 +28,7 @@ const options = {
 // ); 
 // module.exports = { connection };
 
-const DB_URL = 'mongodb://localhost:27017/omega';
 
-mongoose
-  .connect(DB_URL, options)
-  .then(() => {
-    console.log('DB READY TO USE');
-  })
-  .catch((err) => {
-    console.log('ERR: ', err);
-  });
+
+ 
+ 

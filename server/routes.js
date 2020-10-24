@@ -1,15 +1,26 @@
-const { query } = require('express');
 const express = require('express');
-const { register,login,getUsers,getElectronicsDepartment, postNewDepartment,getMainElectronics,getElectronicsCategory,postNewProducts, discountProducts, deleteProducts,} = require('./controller');
-const {authentication, authorization,} = require('./middlewares');
+const {
+  register,
+  login,
+  getUsers,
+  getElectronicsDepartment,
+  postNewDepartment,
+  getMainElectronics,
+  getElectronicsCategory,
+  postNewProducts,
+  discountProducts,
+  deleteProducts,
+} = require('./controller');
+
+const { authentication } = require('./middlewares');
 const authRouter = express.Router();
 
 authRouter.get('/users', async (req, res) => {
-  res.json(await getUsers());
-});
-
-authRouter.get('/protected', authentication, (req, res) => {
-  res.json('You are login');
+  try {
+    res.json(await getUsers());
+  } catch (err) {
+    throw err;
+  }
 });
 
 authRouter.post('/register', async (req, res) => {
@@ -28,7 +39,7 @@ authRouter.post('/login', async (req, res) => {
   }
 });
 
-authRouter.get('/Electronics/',async  (req, res, next) => {
+authRouter.get('/Electronics/', async (req, res, next) => {
   try {
     res.json(await getMainElectronics());
   } catch (err) {
@@ -52,24 +63,23 @@ authRouter.get('/Electronics/:id/:index', async (req, res, next) => {
   }
 });
 
-
-authRouter.post('/Electronics/:id/:index', async (req, res, next) => {
+authRouter.post('/Electronics/:id/:index', authentication, async (req, res, next) => {
   try {
-    res.json(await postNewProducts(req.body.newProducts,req.params.id.toLowerCase(),req.params.index.toLowerCase()));
+    res.json(await postNewProducts(req.body.newProducts, req.params.id.toLowerCase(), req.params.index.toLowerCase()));
   } catch (err) {
     throw err;
   }
 });
 
-authRouter.post('/Electronics/:id', async  (req, res, next) => {
+authRouter.post('/Electronics/:id', authentication, async (req, res, next) => {
   try {
-    res.json(await postNewDepartment(req.body.newProducts,req.params.id.toLowerCase()));
+    res.json(await postNewDepartment(req.body.newProducts, req.params.id.toLowerCase()));
   } catch (err) {
     throw err;
   }
 });
 
-authRouter.put('/Electronics',async (req, res, next) => {
+authRouter.put('/Electronics', authentication, async (req, res, next) => {
   try {
     res.json(await discountProducts(req.query.price));
   } catch (err) {
@@ -77,7 +87,7 @@ authRouter.put('/Electronics',async (req, res, next) => {
   }
 });
 
-authRouter.delete('/Electronics', async(req, res, next) => {
+authRouter.delete('/Electronics', authentication, async (req, res, next) => {
   try {
     res.json(await deleteProducts(req.query.version));
   } catch (err) {
@@ -90,6 +100,7 @@ authRouter.all("*", (req, res, next) => {
   newErr.status = 404;
   next(newErr);
 });
+
 const handleAllNotExist = (err, req, res, next) => {
   res.status(err.status).json({
     error: {
@@ -99,5 +110,5 @@ const handleAllNotExist = (err, req, res, next) => {
 };
 authRouter.use(handleAllNotExist);
 
-module.exports =authRouter
+module.exports = authRouter
 
