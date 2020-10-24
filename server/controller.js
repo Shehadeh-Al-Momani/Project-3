@@ -20,11 +20,11 @@ const addDB = async (body, schema) => {
   } if (schema === "role") {
     document = new RolesModel(body);
   }
-  console.log('document :', document)
-
+  console.log('xxxxxxxxxxxxxxxxx :', await ProductsModel.find({ id: document.id }))
   document.save()
   try {
-    return await document;
+    console.log('document :', document)
+    return await "Successfully Added";
   }
   catch (err) {
     throw err;
@@ -82,40 +82,21 @@ const getElectronicsDepartment = async (id) => {
 
 
 const getElectronicsCategory = async (id) => {
-  return await ProductsModel.find({ category: id }).select('-__v').select('-_id').select('-id').select('-version').select('-category').select('-price').select('-department').distinct('product');
+  return await ProductsModel.find({ category: id }).select('-__v').select('-_id').select('-id').select('-version').select('-category').select('-department').distinct('product');
 };
 
-const postNewProducts = async (body, id, type) => {
-  let countOfPushProcesses = 0;
-  for (let i = 0; i < body.length; i++) {
-    if (body[i].category.toLowerCase() === type && body[i].department.toLowerCase() === id) {
-      products.push(body[i]);
-      countOfPushProcesses++;
-    }
-  }
-  if (countOfPushProcesses === 0) return "Sorry you can't add product in wrong classification";
-  return await "Successfully add a new product";
-}
-
-const postNewDepartment = async (body, id) => {
-  for (let i = 0; i < body.length; i++) {
-    if (body[i].department.toLowerCase() === id) {
-      products.push(body[i]);
-    }
-  }
-  return await "Successfully add a new product";
-}
-
-const discountProducts = async (id) => {
-  const discount = [];
-  for (let i = 0; i < products.length; i++) {
-    if (products[i].price >= id) {
-      discount.push(products[i].product + ' : ' + products[i].price * 0.8 + '$')
-    }
-  }
-  return await discount;
+const discountProducts = async (id) => { 
+  return await ProductsModel.findOneAndUpdate( {price: { $gt: id }}, price*0.8);
 };
 
+// const updateNewTodoList = async (newQuery, id) => {
+//   try {
+//     const newTodo = await todoModel.findByIdAndUpdate( price: { $gt: id }, price*0.8);
+//     return newTodo;
+//   } catch (err) {
+//     throw err;
+//   }
+// };
 const deleteProducts = async (body) => {
   const deleted = [];
   for (let i = 0; i < products.length; i++) {
@@ -135,8 +116,6 @@ module.exports = {
   getMainElectronics,
   getElectronicsDepartment,
   getElectronicsCategory,
-  postNewProducts,
-  postNewDepartment,
   discountProducts,
   deleteProducts,
 };

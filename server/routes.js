@@ -6,9 +6,7 @@ const {
   getAllDBItems,
   getMainElectronics,
   getElectronicsDepartment,
-  postNewDepartment,
   getElectronicsCategory,
-  postNewProducts,
   discountProducts,
   deleteProducts,
 } = require('./controller');
@@ -28,7 +26,7 @@ authRouter.post('/:id', async (req, res) => {
   try {
     res.json(await addDB(req.body, req.params.id));
   } catch (err) {
-    throw err;
+    throw (err);
   }
 })
 
@@ -67,22 +65,6 @@ authRouter.get('/Electronics/:index', async (req, res, next) => {
 authRouter.get('/Electronics/:id/:index', async (req, res, next) => {
   try {
     res.json(await getElectronicsCategory(req.params.index.toLowerCase()));
-  } catch (err) {
-    throw err;
-  }
-});
-
-authRouter.post('/Electronics/:id/:index', authentication, async (req, res, next) => {
-  try {
-    res.json(await postNewProducts(req.body.newProducts, req.params.id.toLowerCase(), req.params.index.toLowerCase()));
-  } catch (err) {
-    throw err;
-  }
-});
-
-authRouter.post('/Electronics/:id', authentication, async (req, res, next) => {
-  try {
-    res.json(await postNewDepartment(req.body.newProducts, req.params.id.toLowerCase()));
   } catch (err) {
     throw err;
   }
