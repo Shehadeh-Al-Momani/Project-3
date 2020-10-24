@@ -1,24 +1,24 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { users, roles } = require('./../models');
+const { users, roles, products } = require('./../models');
 const { ProductsModel } = require('./../db/productsSchema');
 const { UsersModel } = require('./../db/usersSchema');
 const { RolesModel } = require('./../db/rolesSchema');
 const SALT = Number(process.env.SALT);
 
 const addDB = async (body, schema) => {
-  let item = {};
+  let document = {};
   if (schema === "product") {
-    item = new ProductsModel(body);
+    document = new ProductsModel(body);
   }
   if (schema === "user") {
-    item = new UsersModel(body);
+    document = new UsersModel(body);
   } if (schema === "role") {
-    item = new RolesModel(body);
+    document = new RolesModel(body);
   }
-  item.save()
+  document.save()
   try {
-    return await item;
+    return await document;
   }
   catch (err) {
     throw err;
@@ -71,29 +71,20 @@ const getAllDBItems = async (model) => {
 };
 
 const getMainElectronics = async () => {
-  // const products = ProductsModel.find({});
-  // const categories = [];
-  // for (let i = 0; i < products.length; i++) {
-  //   if (categories.indexOf(products[i].department) === -1) {
-  //     categories.push(products[i].department);
-  //   }
-  // }
-  return await ProductsModel.find({}).department;
+  const categories = [];
+  for (let i = 0; i < products.length; i++) {
+    if (categories.indexOf(products[i].department) === -1) {
+      categories.push(products[i].department);
+    }
+  }
+  return await categories;
+  // return await ProductsModel.find({});
+
 }
 
 const getElectronicsDepartment = async (id) => {
-  const departmentsArray = [];
-  for (let i = 0; i < products.length; i++) {
-    if (products[i].department.toLowerCase() === id.toLowerCase()) {
-      if (departmentsArray.indexOf(products[i].category) === -1) {
-        departmentsArray.push(products[i].category);
-      }
-    }
-  }
-  if (!departmentsArray.length) {
-    return "Sorry this department is not available yet";
-  }
-  return await departmentsArray;
+  console.log('ProductsModel.find({}) :', await ProductsModel.find({department:id}).select('-__v').select('-_id').select('-id').select('-version').select('-product').select('-price').select('-department').distinct('category'))
+  return  await ProductsModel.find({department:id}).select('-__v').select('-_id').select('-id').select('-version').select('-product').select('-price').select('-department').distinct('category');
 };
 
 
@@ -154,9 +145,9 @@ const deleteProducts = async (body) => {
 
 module.exports = {
   addDB,
-  getAllDBItems,
   register,
   login,
+  getAllDBItems,
   getMainElectronics,
   getElectronicsDepartment,
   getElectronicsCategory,

@@ -1,12 +1,12 @@
 const express = require('express');
 const {
   addDB,
-  getAllDBItems,
   register,
   login,
+  getAllDBItems,
+  getMainElectronics,
   getElectronicsDepartment,
   postNewDepartment,
-  getMainElectronics,
   getElectronicsCategory,
   postNewProducts,
   discountProducts,
@@ -18,7 +18,7 @@ const authRouter = express.Router();
 
 authRouter.post('/:id', async (req, res) => {
   try {
-    res.json(await addDB(req.body , req.params.id));
+    res.json(await addDB(req.body, req.params.id));
   } catch (err) {
     throw err;
   }
