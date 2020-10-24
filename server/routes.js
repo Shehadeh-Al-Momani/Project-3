@@ -1,8 +1,9 @@
 const express = require('express');
 const {
+  addDB,
+  getAllDBItems,
   register,
   login,
-  getUsers,
   getElectronicsDepartment,
   postNewDepartment,
   getMainElectronics,
@@ -15,13 +16,13 @@ const {
 const { authentication } = require('./middlewares');
 const authRouter = express.Router();
 
-authRouter.get('/users', async (req, res) => {
+authRouter.post('/:id', async (req, res) => {
   try {
-    res.json(await getUsers());
+    res.json(await addDB(req.body , req.params.id));
   } catch (err) {
     throw err;
   }
-});
+})
 
 authRouter.post('/register', async (req, res) => {
   try {
@@ -38,6 +39,14 @@ authRouter.post('/login', async (req, res) => {
     throw err;
   }
 });
+
+authRouter.get('/:id', async (req, res) => {
+  try {
+    res.json(await getAllDBItems(req.params.id));
+  } catch (err) {
+    throw err;
+  }
+})
 
 authRouter.get('/Electronics/', async (req, res, next) => {
   try {

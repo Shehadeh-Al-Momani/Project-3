@@ -1,32 +1,32 @@
 const users = [
   {
-    email: 'shehadeh@gmail.com',
+    email: "shehadeh@gmail.com",
     // password = shehadeh99
-    password: '$2b$10$uZgea5OWqVEROBl/b9ok8Oz8VxsSAw0Il3Gq2nkJW8goSsZK69G/m',
+    password: "$2b$10$uZgea5OWqVEROBl/b9ok8Oz8VxsSAw0Il3Gq2nkJW8goSsZK69G/m",
     role_id: 1,
   },
   {
     email: "fadi@gmail.com",
     // password = fadi99
-    password: '$2b$10$Bk8/.EZlpmgilxHlVcbXMeYm9mTM3xAs.2ZjdKDrvGeXGuDd3baqy',
+    password: "$2b$10$Bk8/.EZlpmgilxHlVcbXMeYm9mTM3xAs.2ZjdKDrvGeXGuDd3baqy",
     role_id: 2,
   },
   {
-    email: 'mahmoud@gmail.com',
+    email: "mahmoud@gmail.com",
     // password = mahmoud99
-    password: '$2b$10$E0KSIf9QN0ojBd3qc8aLfuBts.hfcrD26qFpUETSSXRmPe8JJdUZi',
+    password: "$2b$10$E0KSIf9QN0ojBd3qc8aLfuBts.hfcrD26qFpUETSSXRmPe8JJdUZi",
     role_id: 2,
   },
   {
-    email: 'omar@gmail.com',
+    email: "omar@gmail.com",
     // password = omar99
-    password: '$2b$10$VofPJdOpwelhyIkSi0T3pOQ18BFmTfrYgFUt7CQ4y6Nu/Sm0W3a02',
+    password: "$2b$10$VofPJdOpwelhyIkSi0T3pOQ18BFmTfrYgFUt7CQ4y6Nu/Sm0W3a02",
     role_id: 2,
   },
   {
-    email: 'ismail@gmail.com',
+    email: "ismail@gmail.com",
     // password = ismail99
-    password: '$2b$10$2O5EhXFg5RQG1LdFwsFFT.iNfSGv7YfOhhw40coNA5EyIvQBVCJhS',
+    password: "$2b$10$2O5EhXFg5RQG1LdFwsFFT.iNfSGv7YfOhhw40coNA5EyIvQBVCJhS",
     role_id: 2,
   },
 ];
@@ -34,11 +34,11 @@ const users = [
 const roles = [
   {
     id: 1,
-    type: 'admin',
+    type: "admin",
   },
   {
     id: 2,
-    type: 'user',
+    type: "user",
   },
 ];
 const products = [ 

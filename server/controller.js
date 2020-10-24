@@ -1,13 +1,28 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { users, roles, products } = require('./models');
-const ProductsModel = require('./../db/productsSchema');
-const UsersModel = require('./../db/usersSchema');
-const RolesModel = require('./../db/rolesSchema');
+const { users, roles } = require('./../models');
+const { ProductsModel } = require('./../db/productsSchema');
+const { UsersModel } = require('./../db/usersSchema');
+const { RolesModel } = require('./../db/rolesSchema');
 const SALT = Number(process.env.SALT);
 
-const getUsers = () => {
-  return users;
+const addDB = async (body, schema) => {
+  let item = {};
+  if (schema === "product") {
+    item = new ProductsModel(body);
+  }
+  if (schema === "user") {
+    item = new UsersModel(body);
+  } if (schema === "role") {
+    item = new RolesModel(body);
+  }
+  item.save()
+  try {
+    return await item;
+  }
+  catch (err) {
+    throw err;
+  }
 };
 
 const register = async (user) => {
@@ -44,14 +59,26 @@ const login = async (user) => {
   }
 };
 
-const getMainElectronics = async () => {
-  const categories = [];
-  for (let i = 0; i < products.length; i++) {
-    if (categories.indexOf(products[i].department) === -1) {
-      categories.push(products[i].department);
-    }
+const getAllDBItems = async (model) => {
+  try {
+    if (model === "products") return await ProductsModel.find({});
+    if (model === "users") return await UsersModel.find({});
+    if (model === "roles") return await RolesModel.find({});
+  } catch (error) {
+    console.log('ERR: ', err);
+    throw err;
   }
-  return await categories;
+};
+
+const getMainElectronics = async () => {
+  // const products = ProductsModel.find({});
+  // const categories = [];
+  // for (let i = 0; i < products.length; i++) {
+  //   if (categories.indexOf(products[i].department) === -1) {
+  //     categories.push(products[i].department);
+  //   }
+  // }
+  return await ProductsModel.find({}).department;
 }
 
 const getElectronicsDepartment = async (id) => {
@@ -126,9 +153,10 @@ const deleteProducts = async (body) => {
 };
 
 module.exports = {
+  addDB,
+  getAllDBItems,
   register,
   login,
-  getUsers,
   getMainElectronics,
   getElectronicsDepartment,
   getElectronicsCategory,
