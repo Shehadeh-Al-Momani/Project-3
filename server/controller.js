@@ -6,6 +6,10 @@ const { UsersModel } = require('./../db/usersSchema');
 const { RolesModel } = require('./../db/rolesSchema');
 const SALT = Number(process.env.SALT);
 
+const getMainElectronics = async () => {
+  return await ProductsModel.find({}).select('-__v').select('-_id').select('-id').select('-version').select('-product').select('-price').select('-category').distinct('department');
+}
+
 const addDB = async (body, schema) => {
   let document = {};
   if (schema === "product") {
@@ -16,6 +20,8 @@ const addDB = async (body, schema) => {
   } if (schema === "role") {
     document = new RolesModel(body);
   }
+  console.log('document :', document)
+
   document.save()
   try {
     return await document;
@@ -70,35 +76,13 @@ const getAllDBItems = async (model) => {
   }
 };
 
-const getMainElectronics = async () => {
-  const categories = [];
-  for (let i = 0; i < products.length; i++) {
-    if (categories.indexOf(products[i].department) === -1) {
-      categories.push(products[i].department);
-    }
-  }
-  return await categories;
-  // return await ProductsModel.find({});
-
-}
-
 const getElectronicsDepartment = async (id) => {
-  console.log('ProductsModel.find({}) :', await ProductsModel.find({department:id}).select('-__v').select('-_id').select('-id').select('-version').select('-product').select('-price').select('-department').distinct('category'))
-  return  await ProductsModel.find({department:id}).select('-__v').select('-_id').select('-id').select('-version').select('-product').select('-price').select('-department').distinct('category');
+  return await ProductsModel.find({ department: id }).select('-__v').select('-_id').select('-id').select('-version').select('-product').select('-price').select('-department').distinct('category');
 };
 
 
 const getElectronicsCategory = async (id) => {
-  const categories = [];
-  for (let i = 0; i < products.length; i++) {
-    if (products[i].category.toLowerCase() === id) {
-      categories.push(products[i].product + ": " + products[i].price + '$');
-    }
-  }
-  if (!categories.length) {
-    return "Sorry this category is not available yet";
-  }
-  return await categories;
+  return await ProductsModel.find({ category: id }).select('-__v').select('-_id').select('-id').select('-version').select('-category').select('-price').select('-department').distinct('product');
 };
 
 const postNewProducts = async (body, id, type) => {

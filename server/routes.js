@@ -16,6 +16,14 @@ const {
 const { authentication } = require('./middlewares');
 const authRouter = express.Router();
 
+authRouter.get('/Electronics', async (req, res, next) => {
+  try {
+    res.json(await getMainElectronics());
+  } catch (err) {
+    throw err;
+  }
+});
+
 authRouter.post('/:id', async (req, res) => {
   try {
     res.json(await addDB(req.body, req.params.id));
@@ -47,14 +55,6 @@ authRouter.get('/:id', async (req, res) => {
     throw err;
   }
 })
-
-authRouter.get('/Electronics/', async (req, res, next) => {
-  try {
-    res.json(await getMainElectronics());
-  } catch (err) {
-    throw err;
-  }
-});
 
 authRouter.get('/Electronics/:index', async (req, res, next) => {
   try {
