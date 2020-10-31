@@ -1,5 +1,15 @@
 import React, { Component } from 'react';
+import axios from 'axios';
+
 import './App.css';
+
+import {
+  BrowserRouter as Router,
+  Route,
+  Link,
+  Redirect,
+} from 'react-router-dom';
+
 import TodoList from "./components/TodoList";
 import NewItem from './components/NewItem';
 
@@ -7,12 +17,7 @@ export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      age: 25,
-      tasks: [
-        { title: 'eat', isCompleted: false },
-        { title: 'play', isCompleted: false },
-        { title: 'pray', isCompleted: false },
-      ],
+      tasks: [],
     };
   };
 
@@ -53,9 +58,20 @@ export default class App extends Component {
 
   render() {
     return (
+      <Router>
       <>
         <div className="app">
-          <h1> APP </h1>
+
+          <Route path="/Electronics">
+            <div className="Electronics">
+              <h1>Electronics</h1>
+              <button onClick={this.completeFirst}>All Products</button>
+              <button onClick={this.completeFirst}>Departments</button>
+              <NewItem add={this.createNewItem} />
+              <TodoList tasksArr={this.state.tasks} a={this.state.age} />
+            </div>
+          </Route>
+
           <button onClick={this.completeFirst}>complete first item</button>
           <button onClick={this.deleteFirst}>delete first item</button>
           <button onClick={this.changeAge}>change age to 80</button>
@@ -64,6 +80,7 @@ export default class App extends Component {
           <TodoList tasksArr={this.state.tasks} delete={this.deleteNewItem} />
         </div>
       </>
+      </Router>
     )
   }
 }
