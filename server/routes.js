@@ -70,7 +70,7 @@ authRouter.get('/Electronics/:id/:index', async (req, res, next) => {
   }
 });
 
-authRouter.put('/Electronics', authentication, async (req, res, next) => {
+authRouter.put('/Electronics', async (req, res, next) => {
   try {
     res.json(await discountProducts(req.query.price));
   } catch (err) {
