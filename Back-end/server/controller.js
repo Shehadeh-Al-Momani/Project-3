@@ -93,7 +93,7 @@ const getElectronicsCategory = async ( id , index ) => {
 };
 
 const discountProducts = async (id) => { 
-  return await ProductsModel.find({ price: { $gte: id } }).updateMany({ price: 800 });
+  return await ProductsModel.find({ price: { $gte: id } }).updateMany({ price: this.price*0.8 });
 };
 //{ $set: { price: 9.99 } }
 // const updateNewTodoList = async (newQuery, id) => {

@@ -13,19 +13,26 @@ export default class NewItem extends Component {
       department :"" 
     };
   }
-  handleInputChange = (e, next) => {
+  handleInputChange = (e) => {
     this.setState({
-       id: e.target.value , 
-       version: e.target.value , 
-       product: e.target.value , 
-       price: e.target.value , 
-       category: e.target.value , 
-       department: e.target.value , 
-       })
+      id: e.target.value1 ,
+      version: e.target.value2 ,
+      product: e.target.value3 ,
+      price: e.target.value4 ,
+      category: e.target.value5 ,
+      department: e.target.value6 ,   
+    }) 
   };
 
   addNewItem = () => {
-    this.props.add(this.state.textInput)
+    this.props.add({
+     id : this.state.id ,
+     version : this.state.version ,
+     product : this.state.product ,
+     price : this.state.price ,
+     category : this.state.category ,
+     department : this.state.department 
+    })
     this.setState({ textInput: "" })
   }
   render() {
@@ -35,39 +42,39 @@ export default class NewItem extends Component {
           type="text"
           placeholder="write new item id"
           onChange={this.handleInputChange}
-          value={this.state.id}
+          value1={this.state.id}
         />
         <input
           type="text"
           placeholder="write new item version"
           onChange={this.handleInputChange}
-          value={this.state.version}
+          value2={this.state.version}
         />
         <input
           type="text"
           placeholder="write new item product"
           onChange={this.handleInputChange}
-          value={this.state.product}
+          value3={this.state.product}
         />
         <input
           type="text"
           placeholder="write new item price"
           onChange={this.handleInputChange}
-          value={this.state.price}
+          value4={this.state.price}
         />
         <input
           type="text"
           placeholder="write new item category"
           onChange={this.handleInputChange}
-          value={this.state.category}
+          value5={this.state.category}
         />
         <input
           type="text"
           placeholder="write new item department"
           onChange={this.handleInputChange}
-          value={this.state.department}
+          value6={this.state.department}
         />
-        <button onClick={this.addNewItem}>Add</button>
+        <button class = "button" onClick={this.addNewItem}>Add</button>
       </div>
     );
   }

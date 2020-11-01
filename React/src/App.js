@@ -21,6 +21,8 @@ export default class App extends Component {
     };
   };
 
+  // const [key,setKey] = setState();
+
   getAllProducts = () => {
     axios
       .get('http://localhost:5000/products')
@@ -82,15 +84,14 @@ export default class App extends Component {
       <Router>
         <>
           <div className="app">
-
-            <button onClick={this.getAllProducts}>All Products</button>
-            <button onClick={this.getMainElectronics}>Departments</button>
-            <button onClick={this.deleteFirst}>delete first item</button>
+            <button class="button" onClick={this.getMainElectronics}>Departments</button>
+            <button class="button" onClick={this.deleteFirst}>delete first item</button>
             {/* <button onClick={this.changeToCoding}>change 1st to 'coding'</button> */}
 
             <Route path="/Electronics">
               <div className="Electronics">
                 <h1>Electronics</h1>
+                <button class="button" onClick={this.getAllProducts}>All Products</button>
                 <NewItem add={this.creatNewItem} />
                 <TodoList tasksArr={this.state.tasks} delete={this.deleteNewItem} />
               </div>
