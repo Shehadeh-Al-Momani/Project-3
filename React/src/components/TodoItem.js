@@ -6,11 +6,11 @@ export default function TodoItem(props) {
         props.delete(props.id)
     }
     const { oneTask, num, id } = props;
-    const { title, isCompleted } = oneTask;
-    const title_ = title.charAt(0).toUpperCase() + title.slice(1);
+    const { department } = oneTask;
+    const title_ = department.charAt(0).toUpperCase() + department.slice(1);
     return (
         <div className="todo-list">
-            {num}. {title_}{' '} {isCompleted ? <input type="checkbox" checked /> : <input type="checkbox" />}
+            {num}. {title_}{' '} 
             <button onClick={deleteItem}>X</button>
         </div>
     );

@@ -21,25 +21,33 @@ export default class App extends Component {
     };
   };
 
-  completeFirst = () => {
-    const newArray = [...this.state.tasks]
-    newArray[0].isCompleted = true
-    this.setState({ tasks: newArray })
-  }
+  getAllProducts = () => {
+    axios
+      .get('http://localhost:5000/products')
+      .then((response) => {
+        console.log('response.data :', response.data)
+        this.setState({ tasks: response.data });
+      })
+      .catch((err) => {
+        console.log('ERR: ', err);
+      });
+  };
+
+  getMainElectronics = () => {
+    axios
+      .get('http://localhost:5000/products')
+      .then((response) => {
+        console.log('response.data.department :', response.data)
+        this.setState({ tasks: response.data });
+      })
+      .catch((err) => {
+        console.log('ERR: ', err);
+      });
+  };
 
   deleteFirst = () => {
     const newArray = [...this.state.tasks]
     newArray.shift()
-    this.setState({ tasks: newArray })
-  }
-
-  changeAge = () => {
-    this.setState({ age: 80 })
-  }
-
-  changeToCoding = () => {
-    const newArray = [...this.state.tasks]
-    newArray[0].title = "Coding"
     this.setState({ tasks: newArray })
   }
 
@@ -59,27 +67,24 @@ export default class App extends Component {
   render() {
     return (
       <Router>
-      <>
-        <div className="app">
+        <>
+          <div className="app">
 
-          <Route path="/Electronics">
-            <div className="Electronics">
-              <h1>Electronics</h1>
-              <button onClick={this.completeFirst}>All Products</button>
-              <button onClick={this.completeFirst}>Departments</button>
-              <NewItem add={this.createNewItem} />
-              <TodoList tasksArr={this.state.tasks} a={this.state.age} />
-            </div>
-          </Route>
+            <button onClick={this.getAllProducts}>All Products</button>
+            <button onClick={this.getMainElectronics}>Departments</button>
+            <button onClick={this.deleteFirst}>delete first item</button>
+            {/* <button onClick={this.changeToCoding}>change 1st to 'coding'</button> */}
 
-          <button onClick={this.completeFirst}>complete first item</button>
-          <button onClick={this.deleteFirst}>delete first item</button>
-          <button onClick={this.changeAge}>change age to 80</button>
-          <button onClick={this.changeToCoding}>change 1st to 'coding'</button>
-          <NewItem add={this.creatNewItem} />
-          <TodoList tasksArr={this.state.tasks} delete={this.deleteNewItem} />
-        </div>
-      </>
+            <Route path="/Electronics">
+              <div className="Electronics">
+                <h1>Electronics</h1>
+                <NewItem add={this.creatNewItem} />
+                <TodoList tasksArr={this.state.tasks} delete={this.deleteNewItem} />
+              </div>
+            </Route>
+
+          </div>
+        </>
       </Router>
     )
   }

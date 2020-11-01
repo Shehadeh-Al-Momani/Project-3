@@ -2,18 +2,23 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { users, roles, products } = require('./../models');
 const { ProductsModel } = require('./../db/productsSchema');
+const { CategoriesModel } = require('./../db/catagoriesSchema');
+const { DepartmentsModel } = require('./../db/departmentsSchema');
+// const { ItemsModel } = require('./../db/items');
 const { UsersModel } = require('./../db/usersSchema');
 const { RolesModel } = require('./../db/rolesSchema');
 const SALT = Number(process.env.SALT);
 
 const getMainElectronics = async () => {
-  return await ProductsModel.find({}).select('-__v').select('-_id').select('-id').select('-version').select('-product').select('-price').select('-category').distinct('department');
+  return await DepartmentsModel.find({});
 }
 
 const addDB = async (body, schema) => {
-  let document = {};
+  let document = {}, departmentList = {}, categoryList = {};
   if (schema === "product") {
     document = new ProductsModel(body);
+    departmentList = new DepartmentsModel({ id: body.id, department: body.department });
+    categoryList = new CategoriesModel({ id: body.id, department: body.department , category: body.category });
   }
   if (schema === "user") {
     document = new UsersModel(body);
@@ -21,6 +26,8 @@ const addDB = async (body, schema) => {
     document = new RolesModel(body);
   }
   console.log('xxxxxxxxxxxxxxxxx :', await ProductsModel.find({ id: document.id }))
+  departmentList.save()
+  categoryList.save()
   document.save()
   try {
     console.log('document :', document)
@@ -77,19 +84,18 @@ const getAllDBItems = async (model) => {
 };
 
 const getElectronicsDepartment = async (id) => {
-  return await ProductsModel.find({ department: id }).select('-__v').select('-_id').select('-id').select('-version').select('-product').select('-price').select('-department').distinct('category');
+  return await CategoriesModel.find({ department: id });
 };
 
 
-const getElectronicsCategory = async (id) => {
-  return await ProductsModel.find({ category: id }).select('-__v').select('-_id').select('-id').select('-version').select('-category').select('-department').distinct('product');
+const getElectronicsCategory = async ( id , index ) => {  
+  return await ProductsModel.find({category: index });
 };
 
 const discountProducts = async (id) => { 
-   await ProductsModel.find( {price: {$gte: id} }).updateMany({ price: this.price*.8});
-   return
-  };
-  //{ $set: { price: 9.99 } }
+  return await ProductsModel.find({ price: { $gte: id } }).updateMany({ price: this.price * .8 });
+};
+//{ $set: { price: 9.99 } }
 // const updateNewTodoList = async (newQuery, id) => {
 //   try {
 //     const newTodo = await todoModel.findByIdAndUpdate( price: { $gt: id }, price*0.8);

@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
 
 const departmentsSchema = new mongoose.Schema({
-    department: { type: String, required: true },
+    id: { type: Number, required: true },
+    department: { type: String, required: true , unique : true },
 });
 
 const DepartmentsModel = mongoose.model("departments", departmentsSchema);
@@ -9,3 +10,5 @@ const DepartmentsModel = mongoose.model("departments", departmentsSchema);
 module.exports = {
     DepartmentsModel,
 };
+
+ 

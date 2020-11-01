@@ -64,7 +64,7 @@ authRouter.get('/Electronics/:index', async (req, res, next) => {
 
 authRouter.get('/Electronics/:id/:index', async (req, res, next) => {
   try {
-    res.json(await getElectronicsCategory(req.params.index.toLowerCase()));
+    res.json(await getElectronicsCategory( req.params.id , req.params.index));
   } catch (err) {
     throw err;
   }
