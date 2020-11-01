@@ -8,7 +8,8 @@ const {
   getElectronicsDepartment,
   getElectronicsCategory,
   discountProducts,
-  deleteProducts,
+  // deleteProducts,
+  deleteFirstProducts
 } = require('./controller');
 
 const { authentication } = require('./middlewares');
@@ -81,6 +82,14 @@ authRouter.put('/Electronics', async (req, res, next) => {
 authRouter.delete('/Electronics', authentication, async (req, res, next) => {
   try {
     res.json(await deleteProducts(req.query.version));
+  } catch (err) {
+    throw err;
+  }
+});
+
+authRouter.delete('/Electronics/1', async (req, res, next) => {
+  try {
+    res.json(await deleteFirstProducts(req.body.price));
   } catch (err) {
     throw err;
   }

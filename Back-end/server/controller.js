@@ -93,7 +93,7 @@ const getElectronicsCategory = async ( id , index ) => {
 };
 
 const discountProducts = async (id) => { 
-  return await ProductsModel.find({ price: { $gte: id } }).updateMany({ price: this.price * .8 });
+  return await ProductsModel.find({ price: { $gte: id } }).updateMany({ price: 800 });
 };
 //{ $set: { price: 9.99 } }
 // const updateNewTodoList = async (newQuery, id) => {
@@ -104,16 +104,50 @@ const discountProducts = async (id) => {
 //     throw err;
 //   }
 // };
-const deleteProducts = async (body) => {
-  const deleted = [];
-  for (let i = 0; i < products.length; i++) {
-    if (products[i].version <= body) {
-      products.splice(i, 1);
-      deleted.push(products.splice(i, 1));
-    }
-  }
-  return await deleted;
-};
+
+// const deleteProducts = async (body) => {
+//   const deleted = [];
+//   for (let i = 0; i < products.length; i++) {
+//     if (products[i].version <= body) {
+//       products.splice(i, 1);
+//       deleted.push(products.splice(i, 1));
+//     }
+//   }
+//   return await deleted;
+// };
+
+const deleteFirstProducts = async (body) => {
+  return await ProductsModel.findOneAndDelete({ price: body },)
+  };
+
+// const updateOneProduct = (req, res) => {
+//   console.log('PARAMS: ', req.params);
+//   console.log('BODY: ', req.body);
+//   // {title:'ships',price=>20}
+//   Product.findOneAndUpdate(
+//     { title: req.params.title },
+//     { price: req.body.newPrice }
+//   )
+//     .then((result) => {
+//       // console.log('RESULT: ',result)
+//       res.json('Success update ');
+//     })
+//     .catch((err) => {
+//       console.log('ERR: ', err);
+//       res.json(err);
+//     });
+// };
+
+// const deleteFirstProducts =  (req, res) => {
+//   ProductsModel.findOneAndDelete({ price: req.body.price })  
+//     .then((result) => {
+//        res.json('Success delete 1 item ');
+//     })
+//     .catch((err) => {
+//        res.json(err);
+//     });
+// };
+
 
 module.exports = {
   addDB,
@@ -124,5 +158,6 @@ module.exports = {
   getElectronicsDepartment,
   getElectronicsCategory,
   discountProducts,
-  deleteProducts,
+  // deleteProducts,
+  deleteFirstProducts
 };

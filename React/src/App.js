@@ -58,11 +58,24 @@ export default class App extends Component {
     this.setState({ tasks: newArray })
   }
 
+  // deleteNewItem = (i) => {
+  //   const newArray = [...this.state.tasks]
+  //   newArray.splice(i, 1)
+  //   this.setState({ tasks: newArray })
+  // }
+
   deleteNewItem = (i) => {
     const newArray = [...this.state.tasks]
-    newArray.splice(i, 1)
-    this.setState({ tasks: newArray })
-  }
+    axios
+      .delete('http://localhost:5000/Electronics/1')
+      .then((response) => {
+        newArray.splice(i, 1)
+        this.setState({ tasks: newArray })
+      })
+      .catch((err) => {
+        console.log('ERR: ', err);
+      });
+  };
 
   render() {
     return (
