@@ -6,14 +6,13 @@ const TodoItem = (props) => {
     const { id , version , product, price , category , department } = oneProduct;
 
     const updateItem = () => {
-        console.log('price :', price)
         let newPrice = price *0.8 ;
         if ( price === null ) {newPrice = 0 ;}
         updateOne(newPrice,id)
     }
     
         const deleteItem = () => {
-        deleteOne(id)
+        deleteOne(i,id)
     }
 
     return (

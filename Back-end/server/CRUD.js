@@ -38,7 +38,7 @@ const updateProduct = async (req, res) => {
 
 const deleteProduct = async (req, res) => {
   try {
-    res.json(await ProductsModel.findOneAndDelete({ id: req.params.id }, { price: req.body.price }))
+    res.json(await ProductsModel.findOneAndDelete({ id: req.params.id }))
   }
   catch (err) {
     throw err;
