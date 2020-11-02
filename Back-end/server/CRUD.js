@@ -29,7 +29,7 @@ const addProduct = async (req, res) => {
 
 const updateProduct = async (req, res) => {
   try {
-    res.json(await ProductsModel.findOneAndUpdate({ title: req.params.title }, { isCompleted: req.body.isCompleted }))
+    res.json(await ProductsModel.findOneAndUpdate({ title: req.params.id }, { isCompleted: req.body.isCompleted }))
   }
   catch (err) {
     throw err;

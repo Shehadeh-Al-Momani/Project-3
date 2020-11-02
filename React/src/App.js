@@ -42,16 +42,17 @@ const App = (props) => {
       });
   };
 
-  // updateProduct = () => {
-  //   axios
-  //     .put('http://localhost:5000/updateProduct')
-  //     .then((response) => {
-  //       setProducts(response.data );
-  //     })
-  //     .catch((err) => {
-  //       console.log('ERR: ', err);
-  //     });
-  // };
+  updateProduct = () => {
+    axios
+      .put('http://localhost:5000/updateProduct',{params:id})
+      .then((response) => {
+        setProducts(response.data );
+      })
+      .catch((err) => {
+        console.log('ERR: ', err);
+      });
+  };
+
   const deleteFirst = () => {
     const newArray = [...products]
     newArray.shift()
@@ -87,8 +88,9 @@ const App = (props) => {
               <h1>Electronics</h1>
               <button class="button" onClick={getAllProducts}>All Products</button>
               {/* <button class="button" onClick={getMainElectronics}>Departments</button> */}
+             
               <NewItem add={creatNewItem} />
-              <TodoList productsArr={products} delete={deleteNewItem} />
+              <TodoList productsArr={products} update= {updateProduct} delete={deleteNewItem} />
             </div>
           </Route>
 
