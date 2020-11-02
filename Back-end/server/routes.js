@@ -9,12 +9,26 @@ const {
   getElectronicsCategory,
   discountProducts,
   // deleteProducts,
-  deleteFirstProducts
+  deleteFirstProducts, 
 } = require('./controller');
 
+const { 
+  getAll,
+  addProduct,
+  updateProduct,
+  deleteProduct
+} = require("./CRUD")
 const { authentication } = require('./middlewares');
 const authRouter = express.Router();
 
+// ==================================== Basic CRUD Operation =========================================
+
+authRouter.get("/allProducts/", getAll)
+authRouter.post("/newProduct", addProduct)
+authRouter.put("/updateProduct", updateProduct)
+authRouter.delete("/deleteProduct", deleteProduct)
+
+// =======================================================================================
 authRouter.get('/Electronics', async (req, res, next) => {
   try {
     res.json(await getMainElectronics());
@@ -65,7 +79,7 @@ authRouter.get('/Electronics/:index', async (req, res, next) => {
 
 authRouter.get('/Electronics/:id/:index', async (req, res, next) => {
   try {
-    res.json(await getElectronicsCategory( req.params.id , req.params.index));
+    res.json(await getElectronicsCategory(req.params.id, req.params.index));
   } catch (err) {
     throw err;
   }
