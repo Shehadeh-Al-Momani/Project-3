@@ -66,7 +66,7 @@ const App = (props) => {
   const deleteNewItem = (i) => {
     const newArray = [...products]
     axios
-      .delete('http://localhost:5000/Electronics/1')
+      .delete('http://localhost:5000/Electronics/1' , { data: i})
       .then((response) => {
         newArray.splice(i, 1)
         setProducts(newArray);
