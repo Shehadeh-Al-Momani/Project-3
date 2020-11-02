@@ -10,48 +10,44 @@ import {
 import TodoList from "./components/TodoList";
 import NewItem from './components/NewItem';
 
-const App = (props) => {
+const App = () => {
 
   const [products, setProducts] = useState([]);
-  const [departments, setDepartments] = useState([]);
 
-  const getAllProducts = () => {
-    axios
-      .get('http://localhost:5000/products')
-      .then((response) => {
-        console.log('response.data :', response.data)
-        setProducts(response.data);
-      })
-      .catch((err) => {
-        console.log('ERR: ', err);
-      });
+  useEffect(() => { getAllProducts() }, []);
+
+  const getAllProducts = async () => {
+    try {
+      const res = await axios.get('http://localhost:5000/products')
+      await setProducts(res.data);
+    }
+    catch (err) {
+      console.log('ERR: ', err);
+    };
+  }
+
+  const creatNewItem = async (newItem) => {
+    try {
+      const newProduct = newItem
+      axios
+        .post('http://localhost:5000/newProduct', newProduct)
+      products.push(newProduct)
+      await setProducts(products);
+    }
+    catch (err) {
+      console.log('ERR: ', err);
+    };
   };
 
-  const creatNewItem = (newItem) => {
-    const newProduct = newItem
-    console.log('newProduct :', newProduct)
-    axios
-      .post('http://localhost:5000/newProduct', newProduct)
-      .then((response) => {
-        const newArray = [...products]
-        newArray.push(newProduct)
-        setProducts(newArray);
-      })
-      .catch((err) => {
-        console.log('ERR: ', err);
-      });
-  };
-
-  const updateProduct = (newPrice, id) => {
-         axios
-      .put(`http://localhost:5000/updateProduct/${id}`, {price : newPrice })
-      .then((response) => {
-          const newArray = [...products];
-          setProducts(products);       
-      })
-      .catch((err) => {
-        console.log('ERR: ', err);
-      });
+  const updateProduct = async (newPrice, id) => {
+    try {
+      axios
+        .put(`http://localhost:5000/updateProduct/${id}`, { price: newPrice })
+      await setProducts(products);
+    }
+    catch (err) {
+      console.log('ERR: ', err);
+    };
   };
 
   const deleteFirst = () => {
@@ -65,30 +61,26 @@ const App = (props) => {
   //   newArray.splice(i, 1)
   // setTasks(newArray);
   // }
-  const deleteNewItem = (i,id) => {
-    axios
-      .delete(`http://localhost:5000/deleteProduct/${id}`,{ data: products[i] })
-      .then((response) => {
-        setProducts(products);
-      })
-      .catch((err) => {
-        console.log('ERR: ', err);
-      });
+  const deleteNewItem = async (i, id) => {
+    try {
+      axios
+        .delete(`http://localhost:5000/deleteProduct/${id}`, { data: products[i] })
+      products.splice(i, 1)
+      await setProducts(products);
+    }
+    catch (err) {
+      console.log('ERR: ', err);
+    };
   };
-  
+
   return (
     <Router>
       <>
         <div className="app">
-          <button class="button" onClick={deleteFirst}>delete first item</button>
-          {/* <button onClick={changeToCoding}>change 1st to 'coding'</button> */}
-
-          <Route path="/Electronics">
+          <Route path="/">
             <div className="Electronics">
               <h1>Electronics</h1>
-              <button class="button" onClick={getAllProducts}>All Products</button>
               {/* <button class="button" onClick={getMainElectronics}>Departments</button> */}
-
               <NewItem add={creatNewItem} />
               <TodoList productsArr={products} update={updateProduct} delete={deleteNewItem} />
             </div>
