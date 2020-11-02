@@ -26,7 +26,7 @@ const authRouter = express.Router();
 authRouter.get("/allProducts/", getAll)
 authRouter.post("/newProduct", addProduct)
 authRouter.put("/updateProduct/:id", updateProduct)
-authRouter.delete("/deleteProduct", deleteProduct)
+authRouter.delete("/deleteProduct/:id", deleteProduct)
 
 // =======================================================================================
 authRouter.get('/Electronics', async (req, res, next) => {

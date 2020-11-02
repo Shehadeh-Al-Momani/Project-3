@@ -66,12 +66,10 @@ const App = (props) => {
   // setTasks(newArray);
   // }
   const deleteNewItem = (i,id) => {
-    const newArray = [...products]
     axios
-      .delete(`http://localhost:5000/deleteProduct/${id}` ,{ data: products })
+      .delete(`http://localhost:5000/deleteProduct/${id}`,{ data: products[i] })
       .then((response) => {
-        newArray.splice(i, 1)
-        setProducts(newArray);
+        setProducts(products);
       })
       .catch((err) => {
         console.log('ERR: ', err);
