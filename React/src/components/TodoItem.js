@@ -2,15 +2,18 @@ import React from 'react';
 import "../../src/App.css";
 
 const TodoItem = (props) => {
-    const { oneProduct, num } = props;
-    const { product, price } = oneProduct;
+    const { oneProduct, num , i , updateOne ,deleteOne } = props;
+    const { id , version , product, price , category , department } = oneProduct;
 
     const updateItem = () => {
-        props.update(props.id)
+        console.log('price :', price)
+        let newPrice = price *0.8 ;
+        if ( price === null ) {newPrice = 0 ;}
+        updateOne(newPrice,id)
     }
-
-    const deleteItem = () => {
-        props.delete(props.id)
+    
+        const deleteItem = () => {
+        deleteOne(id)
     }
 
     return (

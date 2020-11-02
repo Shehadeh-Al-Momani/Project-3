@@ -26,9 +26,9 @@ const App = (props) => {
         console.log('ERR: ', err);
       });
   };
-  
+
   const creatNewItem = (newItem) => {
-      const newProduct = newItem
+    const newProduct = newItem
     console.log('newProduct :', newProduct)
     axios
       .post('http://localhost:5000/newProduct', newProduct)
@@ -42,11 +42,12 @@ const App = (props) => {
       });
   };
 
-  const updateProduct = (i) => {
-    axios
-      .put('http://localhost:5000/updateProduct',{params:i})
+  const updateProduct = (newPrice, id) => {
+         axios
+      .put(`http://localhost:5000/updateProduct/${id}`, {price : newPrice })
       .then((response) => {
-        setProducts(response.data);
+          const newArray = [...products];
+          setProducts(products);       
       })
       .catch((err) => {
         console.log('ERR: ', err);
@@ -67,7 +68,7 @@ const App = (props) => {
   const deleteNewItem = (i) => {
     const newArray = [...products]
     axios
-      .delete('http://localhost:5000/Electronics/1' , { data: i})
+      .delete('http://localhost:5000/Electronics/1', { data: i })
       .then((response) => {
         newArray.splice(i, 1)
         setProducts(newArray);
@@ -76,6 +77,7 @@ const App = (props) => {
         console.log('ERR: ', err);
       });
   };
+  
   return (
     <Router>
       <>
@@ -88,9 +90,9 @@ const App = (props) => {
               <h1>Electronics</h1>
               <button class="button" onClick={getAllProducts}>All Products</button>
               {/* <button class="button" onClick={getMainElectronics}>Departments</button> */}
-             
+
               <NewItem add={creatNewItem} />
-              <TodoList productsArr={products} update= {updateProduct} delete={deleteNewItem} />
+              <TodoList productsArr={products} update={updateProduct} delete={deleteNewItem} />
             </div>
           </Route>
 

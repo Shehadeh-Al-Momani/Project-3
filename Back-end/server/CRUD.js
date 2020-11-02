@@ -4,7 +4,7 @@ const { DepartmentsModel } = require('./../db/departmentsSchema');
 
 const getAll = async (req, res) => {
   const arr = await ProductsModel.find();
-  const newArr = arr.map((e, i) => {return e.product})  
+  const newArr = arr.map((e, i) => { return e.product })
   const unique = [...new Set(newArr)];
   try {
     res.json(await unique);
@@ -29,22 +29,34 @@ const addProduct = async (req, res) => {
 
 const updateProduct = async (req, res) => {
   try {
-    res.json(await ProductsModel.findOneAndUpdate({ title: req.params.id }, { isCompleted: req.body.isCompleted }))
+    res.json(await ProductsModel.findOneAndUpdate({ id: req.params.id }, { price: req.body.price }))
   }
   catch (err) {
     throw err;
   }
 };
-
 
 const deleteProduct = async (req, res) => {
   try {
-    res.json(await getMainElectronics());
+    res.json(await ProductsModel.findOneAndDelete({ id: req.params.id }, { price: req.body.price }))
   }
   catch (err) {
     throw err;
   }
 };
+
+const deleteFirstTask=(req, res)=>{
+  ProductsModel.findOneAndDelete(
+    {}
+  )
+    .then((result) => {
+      res.json('success delete first task');
+    })
+    .catch((err) => {
+      console.log('ERR: ', err);
+      res.json(err);
+    });
+}
 
 module.exports = {
   getAll,
