@@ -42,11 +42,11 @@ const App = (props) => {
       });
   };
 
-  updateProduct = () => {
+  const updateProduct = (i) => {
     axios
-      .put('http://localhost:5000/updateProduct',{params:id})
+      .put('http://localhost:5000/updateProduct',{params:i})
       .then((response) => {
-        setProducts(response.data );
+        setProducts(response.data);
       })
       .catch((err) => {
         console.log('ERR: ', err);
