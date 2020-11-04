@@ -17,18 +17,7 @@ mongoose
   });
   
   module.exports = db; 
-// connecting mongoose
-// const DB_URL = 'mongodb://localhost:27017/omega';
-// const connection = mongoose.connect( process.env.DB_URI, options).then(
-//   () => {
-//     console.log("DB Ready To Use");
-//   },
-//   (err) => {
-//     console.log(err);
-//   }
-// ); 
-// module.exports = { connection };
-
+ 
 
 
  
