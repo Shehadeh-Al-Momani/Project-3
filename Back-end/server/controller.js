@@ -9,10 +9,51 @@ const { UsersModel } = require('./../db/usersSchema');
 const { RolesModel } = require('./../db/rolesSchema');
 const SALT = Number(process.env.SALT);
 
-const getMainElectronics = async () => {
-  return await DepartmentsModel.find({});
-}
 
+const getDepartments = async () => {
+  const arr = await ProductsModel.find();
+  const newArr = arr.map((e,i)=> { return e.department})
+  const unique = [...new Set(newArr)];
+  return await unique;
+}
+// category
+// department
+//product
+
+//distinct('category')
+//==================================== All Data ===================================\\
+//  {return await ProductsModel.find();}
+ //=================================== Electronic department ====================================\\
+//{return await ProductsModel.find().distinct('department');}
+//or 
+// {
+//   const arr = await ProductsModel.find();
+//   const newArr = arr.map((e)=> { return e.department;})
+//   const unique = [...new Set(newArr)];
+//   return await unique ;
+// }
+ //=================================== department catagories ====================================\\
+// return await ProductsModel.find({ department:"Computers"}).distinct('category');
+// or 
+// {
+//   const arr = await ProductsModel.find({ department:"Computers"});
+//   const newArr = arr.map((e)=> { return e.category;})
+//   const unique = [...new Set(newArr)];
+//   return await unique ;
+// }
+ //=================================== category product ====================================\\
+
+
+
+
+
+
+
+
+
+
+
+//*************************************************************************************************\\
 const addDB = async (body, schema) => {
   let document = {}, departmentList = {}, categoryList = {};
   if (schema === "product") {
@@ -83,12 +124,12 @@ const getAllDBItems = async (model) => {
   }
 };
 
-const getElectronicsDepartment = async (id) => {
+const getCategories = async (id) => {
   return await CategoriesModel.find({ department: id });
 };
 
 
-const getElectronicsCategory = async ( id , index ) => {  
+const getProducts = async ( id , index ) => {  
   return await ProductsModel.find({category: index });
 };
 
@@ -154,9 +195,9 @@ module.exports = {
   register,
   login,
   getAllDBItems,
-  getMainElectronics,
-  getElectronicsDepartment,
-  getElectronicsCategory,
+  getDepartments,
+  getCategories,
+  getProducts,
   discountProducts,
   // deleteProducts,
   deleteFirstProducts

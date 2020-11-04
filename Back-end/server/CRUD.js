@@ -15,6 +15,7 @@ const getAll = async (req, res) => {
 };
 // category
 // department
+//product
 const addProduct = async (req, res) => {
   const newProduct = new ProductsModel(req.body);
   newProduct

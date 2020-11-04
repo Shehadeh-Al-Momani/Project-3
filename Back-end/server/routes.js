@@ -4,9 +4,9 @@ const {
   register,
   login,
   getAllDBItems,
-  getMainElectronics,
-  getElectronicsDepartment,
-  getElectronicsCategory,
+  getDepartments,
+  getCategories,
+  getProducts,
   discountProducts,
   // deleteProducts,
   deleteFirstProducts, 
@@ -29,9 +29,9 @@ authRouter.put("/updateProduct/:id", updateProduct)
 authRouter.delete("/deleteProduct/:id", deleteProduct)
 
 // =======================================================================================
-authRouter.get('/Electronics', async (req, res, next) => {
+authRouter.get('/Electronics/', async (req, res, next) => {
   try {
-    res.json(await getMainElectronics());
+    res.json(await getDepartments());
   } catch (err) {
     throw err;
   }
@@ -71,7 +71,7 @@ authRouter.get('/:id', async (req, res) => {
 
 authRouter.get('/Electronics/:index', async (req, res, next) => {
   try {
-    res.json(await getElectronicsDepartment(req.params.index));
+    res.json(await getCategories(req.params.index));
   } catch (err) {
     throw err;
   }
@@ -79,7 +79,7 @@ authRouter.get('/Electronics/:index', async (req, res, next) => {
 
 authRouter.get('/Electronics/:id/:index', async (req, res, next) => {
   try {
-    res.json(await getElectronicsCategory(req.params.id, req.params.index));
+    res.json(await getProducts(req.params.id, req.params.index));
   } catch (err) {
     throw err;
   }
