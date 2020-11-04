@@ -69,9 +69,9 @@ authRouter.get('/:id', async (req, res) => {
   }
 })
 
-authRouter.get('/Electronics/:index', async (req, res, next) => {
+authRouter.get('/Electronics/:id', async (req, res, next) => {
   try {
-    res.json(await getCategories(req.params.index));
+    res.json(await getCategories(req.params.id));
   } catch (err) {
     throw err;
   }

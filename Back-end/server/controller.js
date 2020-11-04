@@ -11,6 +11,7 @@ const SALT = Number(process.env.SALT);
 
 
 const getDepartments = async () => {
+  //{return await ProductsModel.find().distinct('department');}
   const arr = await ProductsModel.find();
   const newArr = arr.map((e,i)=> { return e.department})
   const unique = [...new Set(newArr)];
@@ -21,36 +22,6 @@ const getDepartments = async () => {
 //product
 
 //distinct('category')
-//==================================== All Data ===================================\\
-//  {return await ProductsModel.find();}
- //=================================== Electronic department ====================================\\
-//{return await ProductsModel.find().distinct('department');}
-//or 
-// {
-//   const arr = await ProductsModel.find();
-//   const newArr = arr.map((e)=> { return e.department;})
-//   const unique = [...new Set(newArr)];
-//   return await unique ;
-// }
- //=================================== department catagories ====================================\\
-// return await ProductsModel.find({ department:"Computers"}).distinct('category');
-// or 
-// {
-//   const arr = await ProductsModel.find({ department:"Computers"});
-//   const newArr = arr.map((e)=> { return e.category;})
-//   const unique = [...new Set(newArr)];
-//   return await unique ;
-// }
- //=================================== category product ====================================\\
-
-
-
-
-
-
-
-
-
 
 
 //*************************************************************************************************\\
@@ -125,27 +96,25 @@ const getAllDBItems = async (model) => {
 };
 
 const getCategories = async (id) => {
-  return await CategoriesModel.find({ department: id });
+  // return await CategoriesModel.find({ department: id }).distinct('category');
+  const arr = await ProductsModel.find({ department:id});
+    const newArr = arr.map((e)=> { return e.category;})
+    return await [...new Set(newArr)] ;
 };
 
-
-const getProducts = async ( id , index ) => {  
-  return await ProductsModel.find({category: index });
+const getProducts = async ( id , index ) => {    
+  const arr = await ProductsModel.find({ department:id ,category:index});
+  const newArr = arr.map((e)=> { return `${e.product} : ${e.price}`})
+  return await [...new Set(newArr)] ;
 };
 
 const discountProducts = async (id) => { 
-  return await ProductsModel.find({ price: { $gte: id } }).updateMany({ price: this.price*0.8 });
+  // return await ProductsModel.find({ price: { $gte: id } }).updateMany({ price: this.price*0.8 });
+  const arr =await ProductsModel.find({ price: { $gte: id } });
+  const newArr = arr.map((e)=> {return `${e.product} : ${e.price*0.8}`});
+  return await [...new Set(newArr)] ;
 };
-//{ $set: { price: 9.99 } }
-// const updateNewTodoList = async (newQuery, id) => {
-//   try {
-//     const newTodo = await todoModel.findByIdAndUpdate( price: { $gt: id }, price*0.8);
-//     return newTodo;
-//   } catch (err) {
-//     throw err;
-//   }
-// };
-
+ 
 // const deleteProducts = async (body) => {
 //   const deleted = [];
 //   for (let i = 0; i < products.length; i++) {
