@@ -3,50 +3,44 @@ const {getAllDBItems,getDepartments,getCategories,getProducts} = require('./cont
 const {addDB} = require('./controller_post');
 const {discountProducts} = require('./controller_put');
 const {deleteProducts} = require('./controller_delete');
-
-const {register,login} = require("./registeration_login")
-const {getAll, addProduct, updateProduct, deleteProduct} = require("./basic_CRUD_operation")
+const {register,login} = require("./registeration_login");
+const {getAll, addProduct, updateProduct, deleteProduct} = require("./basic_CRUD_operation");
 const {authentication } = require('./autharization');
 const authRouter = express.Router();
 
-// ==================================== Basic CRUD Operation =========================================
-
+// ==================================== Registeration & Login =========================================\\
+authRouter.post('/register',register);
+authRouter.post('/login',login);
+// ==================================== Basic CRUD Operation =========================================\\
 authRouter.get("/allProducts/", getAll)
 authRouter.post("/newProduct", addProduct)
 authRouter.put("/updateProduct/:id", updateProduct)
 authRouter.delete("/deleteProduct/:id", deleteProduct)
-
-// =======================================================================================
+// ====================================== GET Request =================================================\\
 authRouter.get('/Electronics/',getDepartments);
-
-authRouter.post('/:id',addDB)
-
-authRouter.post('/register',register);
-authRouter.post('/login',login);
-
 authRouter.get('/:id',getAllDBItems)
-
 authRouter.get('/Electronics/:id',getCategories);
 authRouter.get('/Electronics/:id/:index',getProducts);
-
+// ====================================== POST Request =================================================\\
+authRouter.post('/:id',addDB)
+// ====================================== PUT Request =================================================\\
 authRouter.put('/Electronics',discountProducts);
-
+// ====================================== DELETE Request =================================================\\
 authRouter.delete('/Electronics/:v ',deleteProducts);
-
+// ====================================== Handle Error =================================================\\
 authRouter.all("*", (req, res, next) => {
   const newErr = new Error("not found path");
   newErr.status = 404;
   next(newErr);
 });
-
-const handleAllNotExist = (err, req, res, next) => {
-  res.status(err.status).json({
+authRouter.use( async (err, req, res, next) => {
+  await res.status(err.status).json({
     error: {
-      message: err.message,
+      status: err.status,
+      message: err.message
     },
   });
-};
-authRouter.use(handleAllNotExist);
+});
 
 module.exports = authRouter
 
