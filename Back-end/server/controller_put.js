@@ -5,18 +5,22 @@ const { DepartmentsModel } = require('./../db/departmentsSchema');
 const { UsersModel } = require('./../db/usersSchema');
 const { RolesModel } = require('./../db/rolesSchema');
 
-const discountProducts = async (id) => {
+//===================================================================================\\
+const discountProducts = async (req, res) => {
+    const id = req.query.price;
+    const disc = req.query.discont;
     try {
         const arr = await ProductsModel.find({ price: { $gte: id } });
         arr.map(async (e) => {
-            let newPrice = e.price * 0.8;
+            let newPrice = e.price * disc;
             return await ProductsModel.updateMany({ price: newPrice });
         });
-        return await arr;
+        res.json(await arr);
     } catch (err) {
         throw err;
     }
 };
+//===================================================================================\\
 
 module.exports = {
     discountProducts,

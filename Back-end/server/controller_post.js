@@ -5,6 +5,7 @@ const { DepartmentsModel } = require('./../db/departmentsSchema');
 const { UsersModel } = require('./../db/usersSchema');
 const { RolesModel } = require('./../db/rolesSchema');
 
+//===================================================================================\\
 const addDB = async (body, schema) => {
   let document = {}, departmentList = {}, categoryList = {};
   if (schema === "product") {
@@ -23,6 +24,7 @@ const addDB = async (body, schema) => {
     throw err;
   }
 };
+//===================================================================================\\
 
 module.exports = {
   addDB,

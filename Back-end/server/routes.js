@@ -1,5 +1,9 @@
 const express = require('express');
-const {addDB,getAllDBItems,getDepartments,getCategories,getProducts,discountProducts,deleteProducts} = require('./controller');
+const {getAllDBItems,getDepartments,getCategories,getProducts} = require('./controller_get');
+const {addDB} = require('./controller_post');
+const {discountProducts} = require('./controller_put');
+const {deleteProducts} = require('./controller_delete');
+
 const {register,login} = require("./registeration_login")
 const {getAll, addProduct, updateProduct, deleteProduct} = require("./CRUD")
 const {authentication } = require('./middlewares');
@@ -50,13 +54,7 @@ authRouter.get('/Electronics/:id/:index', async (req, res, next) => {
   }
 });
 
-authRouter.put('/Electronics', async (req, res, next) => {
-  try {
-    res.json(await discountProducts(req.query.price));
-  } catch (err) {
-    throw err;
-  }
-});
+authRouter.put('/Electronics',discountProducts);
 
 authRouter.delete('/Electronics', authentication, async (req, res, next) => {
   try {
@@ -66,7 +64,7 @@ authRouter.delete('/Electronics', authentication, async (req, res, next) => {
   }
 });
 
-authRouter.delete('/Electronics/:v', async (req, res, next) => {
+authRouter.delete('/Electronics/:v ', async (req, res, next) => {
   try {
     res.json(await deleteProducts(req.params.v));
   } catch (err) {
