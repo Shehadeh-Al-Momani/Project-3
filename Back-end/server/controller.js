@@ -22,19 +22,13 @@ const getDepartments = async () => {
 const addDB = async (body, schema) => {
   let document = {}, departmentList = {}, categoryList = {};
   if (schema === "product") {
-    document = new ProductsModel(body);
-    departmentList = new DepartmentsModel({ id: body.id, department: body.department });
-    categoryList = new CategoriesModel({ id: body.id, department: body.department, category: body.category });
+    document = new ProductsModel(body).save();
+    departmentList = new DepartmentsModel({ id: body.id, department: body.department }).save();
+    categoryList = new CategoriesModel({ id: body.id, department: body.department, category: body.category }).save();
   }
   if (schema === "user") {
     document = new UsersModel(body);
-  } if (schema === "role") {
-    document = new RolesModel(body);
   }
-  console.log('xxxxxxxxxxxxxxxxx :', await ProductsModel.find({ id: document.id }))
-  departmentList.save()
-  categoryList.save()
-  document.save()
   try {
     console.log('document :', document)
     return await "Successfully Added";
@@ -58,16 +52,17 @@ const register = async (body) => {
   }
 };
 
-const login = async (user) => {
-  const savedUser = users.filter((e) => e.email === user.email);
-  if (!savedUser.length) {
+const login = async (body) => {
+  const loginUser = users.filter((e) => e.email === body.email);
+  if (!loginUser.length) {
     return 'User Not Found please register';
   } else {
-    if (await bcrypt.compare(user.password, savedUser[0].password)) {
-      const savedRole = roles.filter((e) => e.id === savedUser[0].role_id);
+    const {loginEmail,loginPassword,loginRole_id} = loginUser.shift();
+    if (await bcrypt.compare(body.password, loginPassword)) {
+      const loginRole = roles.filter((e) => e.id === loginRole_id);
       const payload = {
-        email: savedUser[0].email,
-        role: savedRole[0].type,
+        email: loginEmail,
+        role: loginRole.type,
       };
       return await jwt.sign(payload, process.env.SECRET);
     } else {
@@ -115,7 +110,7 @@ const discountProducts = async (id) => {
 
 const deleteProducts = async (parms) => {
   try {
-    return await ProductsModel.deleteMany ({ version: { $lte: parms } })
+    return await ProductsModel.deleteMany({ version: { $lte: parms } })
   } catch (error) {
     throw error;
   }
