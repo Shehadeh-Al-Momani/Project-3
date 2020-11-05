@@ -6,7 +6,7 @@ const {deleteProducts} = require('./controller_delete');
 
 const {register,login} = require("./registeration_login")
 const {getAll, addProduct, updateProduct, deleteProduct} = require("./basic_CRUD_operation")
-const {authentication } = require('./middlewares');
+const {authentication } = require('./autharization');
 const authRouter = express.Router();
 
 // ==================================== Basic CRUD Operation =========================================
