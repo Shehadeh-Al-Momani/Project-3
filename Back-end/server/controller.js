@@ -108,71 +108,22 @@ const getProducts = async (id, index) => {
   return await [...new Set(newArr)];
 };
 
-// const discountProducts = async (id) => {
-// let doc = ProductsModel.find({ price: { $gte: id } });
-
-// // db.collection.findOne({ 
-// //   "_id": ObjectId("5308595e3256e758757b4d2f") 
-// // });
-// const arr = doc.forEach(function(e) {e.price*= 0.8});
-// ProductsModel.update(
-//  { "price": doc.price },
-//  { "$set": { "price": doc } });
-// return await arr;
-// };
-
 const discountProducts = async (id) => {
-   // return await ProductsModel.find({ price: { $gte: id } }).updateMany({ price: this.price*0.8 });
-  // const arr = await ProductsModel.updateMany({ price: { $gte: id } }, { $set: { "price" : "price" * 0.8}} );
-  // const newArr = arr.map((e) => { return `${e.product} : ${e.price * 0.8}` });
-  // return await arr;
-try {
-  let doc = await ProductsModel.find({ price: { $gte: id } });
-  console.log('doc :', doc)
-  let arr = doc.map((e)=> { return e.price*= 0.8});
-  console.log('arr :', arr)
-  let document =ProductsModel.updateMany(
-   { "price": doc.price },
-   { "$set": { "price": doc } });
-  return await document;
-}
-catch (err) {
-  throw err;
-}
-};
-
-// const deleteProducts = async (body) => {
-//   const deleted = [];
-//   for (let i = 0; i < products.length; i++) {
-//     if (products[i].version <= body) {
-//       products.splice(i, 1);
-//       deleted.push(products.splice(i, 1));
-//     }
-//   }
-//   return await deleted;
-// };
+  try {
+    const arr = await ProductsModel.find({ price: { $gte: id } });
+  arr.map( async (e) => {
+    let newPrice = e.price * 0.8;
+         return await ProductsModel.updateMany({ price: newPrice });
+     });
+  return await arr;
+  } catch (err) {
+    throw err ;
+  }
+  };
 
 const deleteFirstProducts = async (body) => {
   return await ProductsModel.findOneAndDelete({ price: body },)
 };
-
-// const updateOneProduct = (req, res) => {
-//   console.log('PARAMS: ', req.params);
-//   console.log('BODY: ', req.body);
-//   // {title:'ships',price=>20}
-//   Product.findOneAndUpdate(
-//     { title: req.params.title },
-//     { price: req.body.newPrice }
-//   )
-//     .then((result) => {
-//       // console.log('RESULT: ',result)
-//       res.json('Success update ');
-//     })
-//     .catch((err) => {
-//       console.log('ERR: ', err);
-//       res.json(err);
-//     });
-// };
 
 // const deleteFirstProducts =  (req, res) => {
 //   ProductsModel.findOneAndDelete({ price: req.body.price })  
