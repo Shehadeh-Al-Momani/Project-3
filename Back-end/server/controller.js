@@ -44,17 +44,15 @@ const addDB = async (body, schema) => {
   }
 };
 
-const register = async (user) => {
-  const savedUser = users.filter((e) => e.email === user.email);
-  if (!savedUser.length) {
-    const passwordHash = await bcrypt.hash(user.password, SALT);
-    const newUser = {
-      email: user.email,
-      password: passwordHash,
-      role_id: user.id,
-    }
-    users.push(newUser);
-    return await newUser;
+const register = async (body) => {
+  const newdUser = users.filter((e) => e.email === body.email);
+  if (!newdUser.length) {
+    users.push({
+      email: body.email,
+      password: await bcrypt.hash(body.password, SALT),
+      role_id: body.id,
+    });
+    return "Registerion Done You can login now";
   } else {
     return 'User already exists';
   }
