@@ -8,8 +8,8 @@ const {
   getCategories,
   getProducts,
   discountProducts,
-  // deleteProducts,
-  deleteFirstProducts, 
+  deleteProducts,
+  // deleteFirstProducts, 
 } = require('./controller');
 
 const { 
@@ -101,9 +101,9 @@ authRouter.delete('/Electronics', authentication, async (req, res, next) => {
   }
 });
 
-authRouter.delete('/Electronics/1', async (req, res, next) => {
+authRouter.delete('/Electronics/:v', async (req, res, next) => {
   try {
-    res.json(await deleteFirstProducts(req.body.price));
+    res.json(await deleteProducts(req.params.v));
   } catch (err) {
     throw err;
   }

@@ -17,12 +17,6 @@ const getDepartments = async () => {
   const unique = [...new Set(newArr)];
   return await unique;
 }
-// category
-// department
-//product
-
-//distinct('category')
-
 
 //*************************************************************************************************\\
 const addDB = async (body, schema) => {
@@ -51,7 +45,7 @@ const addDB = async (body, schema) => {
 };
 
 const register = async (user) => {
-  const savedUser = users.filter((element) => element.email === user.email);
+  const savedUser = users.filter((e) => e.email === user.email);
   if (!savedUser.length) {
     const passwordHash = await bcrypt.hash(user.password, SALT);
     const newUser = {
@@ -67,12 +61,12 @@ const register = async (user) => {
 };
 
 const login = async (user) => {
-  const savedUser = users.filter((element) => element.email === user.email);
+  const savedUser = users.filter((e) => e.email === user.email);
   if (!savedUser.length) {
     return 'User Not Found please register';
   } else {
     if (await bcrypt.compare(user.password, savedUser[0].password)) {
-      const savedRole = roles.filter((element) => element.id === savedUser[0].role_id);
+      const savedRole = roles.filter((e) => e.id === savedUser[0].role_id);
       const payload = {
         email: savedUser[0].email,
         role: savedRole[0].type,
@@ -111,29 +105,23 @@ const getProducts = async (id, index) => {
 const discountProducts = async (id) => {
   try {
     const arr = await ProductsModel.find({ price: { $gte: id } });
-  arr.map( async (e) => {
-    let newPrice = e.price * 0.8;
-         return await ProductsModel.updateMany({ price: newPrice });
-     });
-  return await arr;
+    arr.map(async (e) => {
+      let newPrice = e.price * 0.8;
+      return await ProductsModel.updateMany({ price: newPrice });
+    });
+    return await arr;
   } catch (err) {
-    throw err ;
+    throw err;
   }
-  };
-
-const deleteFirstProducts = async (body) => {
-  return await ProductsModel.findOneAndDelete({ price: body },)
 };
 
-// const deleteFirstProducts =  (req, res) => {
-//   ProductsModel.findOneAndDelete({ price: req.body.price })  
-//     .then((result) => {
-//        res.json('Success delete 1 item ');
-//     })
-//     .catch((err) => {
-//        res.json(err);
-//     });
-// };
+const deleteProducts = async (parms) => {
+  try {
+    return await ProductsModel.deleteMany ({ version: { $lte: parms } })
+  } catch (error) {
+    throw error;
+  }
+};
 
 
 module.exports = {
@@ -145,6 +133,5 @@ module.exports = {
   getCategories,
   getProducts,
   discountProducts,
-  // deleteProducts,
-  deleteFirstProducts
+  deleteProducts,
 };
