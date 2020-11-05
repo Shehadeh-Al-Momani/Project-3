@@ -13,7 +13,7 @@ const SALT = Number(process.env.SALT);
 const getDepartments = async () => {
   //{return await ProductsModel.find().distinct('department');}
   const arr = await ProductsModel.find();
-  const newArr = arr.map((e,i)=> { return e.department})
+  const newArr = arr.map((e, i) => { return e.department })
   const unique = [...new Set(newArr)];
   return await unique;
 }
@@ -30,7 +30,7 @@ const addDB = async (body, schema) => {
   if (schema === "product") {
     document = new ProductsModel(body);
     departmentList = new DepartmentsModel({ id: body.id, department: body.department });
-    categoryList = new CategoriesModel({ id: body.id, department: body.department , category: body.category });
+    categoryList = new CategoriesModel({ id: body.id, department: body.department, category: body.category });
   }
   if (schema === "user") {
     document = new UsersModel(body);
@@ -97,24 +97,50 @@ const getAllDBItems = async (model) => {
 
 const getCategories = async (id) => {
   // return await CategoriesModel.find({ department: id }).distinct('category');
-  const arr = await ProductsModel.find({ department:id});
-    const newArr = arr.map((e)=> { return e.category;})
-    return await [...new Set(newArr)] ;
+  const arr = await ProductsModel.find({ department: id });
+  const newArr = arr.map((e) => { return e.category; })
+  return await [...new Set(newArr)];
 };
 
-const getProducts = async ( id , index ) => {    
-  const arr = await ProductsModel.find({ department:id ,category:index});
-  const newArr = arr.map((e)=> { return `${e.product} : ${e.price}`})
-  return await [...new Set(newArr)] ;
+const getProducts = async (id, index) => {
+  const arr = await ProductsModel.find({ department: id, category: index });
+  const newArr = arr.map((e) => { return `${e.product} : ${e.price}` })
+  return await [...new Set(newArr)];
 };
 
-const discountProducts = async (id) => { 
-  // return await ProductsModel.find({ price: { $gte: id } }).updateMany({ price: this.price*0.8 });
-  const arr =await ProductsModel.find({ price: { $gte: id } });
-  const newArr = arr.map((e)=> {return `${e.product} : ${e.price*0.8}`});
-  return await [...new Set(newArr)] ;
+// const discountProducts = async (id) => {
+// let doc = ProductsModel.find({ price: { $gte: id } });
+
+// // db.collection.findOne({ 
+// //   "_id": ObjectId("5308595e3256e758757b4d2f") 
+// // });
+// const arr = doc.forEach(function(e) {e.price*= 0.8});
+// ProductsModel.update(
+//  { "price": doc.price },
+//  { "$set": { "price": doc } });
+// return await arr;
+// };
+
+const discountProducts = async (id) => {
+   // return await ProductsModel.find({ price: { $gte: id } }).updateMany({ price: this.price*0.8 });
+  // const arr = await ProductsModel.updateMany({ price: { $gte: id } }, { $set: { "price" : "price" * 0.8}} );
+  // const newArr = arr.map((e) => { return `${e.product} : ${e.price * 0.8}` });
+  // return await arr;
+try {
+  let doc = await ProductsModel.find({ price: { $gte: id } });
+  console.log('doc :', doc)
+  let arr = doc.map((e)=> { return e.price*= 0.8});
+  console.log('arr :', arr)
+  let document =ProductsModel.updateMany(
+   { "price": doc.price },
+   { "$set": { "price": doc } });
+  return await document;
+}
+catch (err) {
+  throw err;
+}
 };
- 
+
 // const deleteProducts = async (body) => {
 //   const deleted = [];
 //   for (let i = 0; i < products.length; i++) {
@@ -128,7 +154,7 @@ const discountProducts = async (id) => {
 
 const deleteFirstProducts = async (body) => {
   return await ProductsModel.findOneAndDelete({ price: body },)
-  };
+};
 
 // const updateOneProduct = (req, res) => {
 //   console.log('PARAMS: ', req.params);
