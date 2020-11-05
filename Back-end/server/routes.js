@@ -18,15 +18,7 @@ authRouter.delete("/deleteProduct/:id", deleteProduct)
 
 // =======================================================================================
 authRouter.get('/Electronics/',getDepartments);
-
-authRouter.post('/:id', async (req, res) => {
-  try {
-    res.json(await addDB(req.body, req.params.id));
-  } catch (err) {
-    throw (err);
-  }
-})
-
+authRouter.post('/:id',addDB)
 authRouter.post('/register',register);
 authRouter.post('/login',login);
 
@@ -64,13 +56,7 @@ authRouter.delete('/Electronics', authentication, async (req, res, next) => {
   }
 });
 
-authRouter.delete('/Electronics/:v ', async (req, res, next) => {
-  try {
-    res.json(await deleteProducts(req.params.v));
-  } catch (err) {
-    throw err;
-  }
-});
+authRouter.delete('/Electronics/:v ',deleteProducts);
 
 authRouter.all("*", (req, res, next) => {
   const newErr = new Error("not found path");

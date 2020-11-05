@@ -1,19 +1,14 @@
 const { ProductsModel } = require('./../db/productsSchema');
-const { CategoriesModel } = require('./../db/catagoriesSchema');
-const { DepartmentsModel } = require('./../db/departmentsSchema');
-// const { ItemsModel } = require('./../db/items');
-const { UsersModel } = require('./../db/usersSchema');
-const { RolesModel } = require('./../db/rolesSchema');
 
-
-const deleteProducts = async (parms) => {
-  try {
-    return await ProductsModel.deleteMany({ version: { $lte: parms } })
-  } catch (error) {
-    throw error;
-  }
+const deleteProducts = async (req, res, next) => {
+    const parms = req.params.v;
+    try {
+        res.json(await ProductsModel.deleteMany({ version: { $lte: parms } }));
+    } catch (error) {
+        throw error;
+    }
 };
 
 module.exports = {
-      deleteProducts,
+    deleteProducts,
 };
