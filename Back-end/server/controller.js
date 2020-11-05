@@ -38,39 +38,6 @@ const addDB = async (body, schema) => {
   }
 };
 
-const register = async (body) => {
-  const newdUser = users.filter((e) => e.email === body.email);
-  if (!newdUser.length) {
-    users.push({
-      email: body.email,
-      password: await bcrypt.hash(body.password, SALT),
-      role_id: body.id,
-    });
-    return "Registerion Done You can login now";
-  } else {
-    return 'User already exists';
-  }
-};
-
-const login = async (body) => {
-  const loginUser = users.filter((e) => e.email === body.email);
-  if (!loginUser.length) {
-    return 'User Not Found please register';
-  } else {
-    const {loginEmail,loginPassword,loginRole_id} = loginUser.shift();
-    if (await bcrypt.compare(body.password, loginPassword)) {
-      const loginRole = roles.filter((e) => e.id === loginRole_id);
-      const payload = {
-        email: loginEmail,
-        role: loginRole.type,
-      };
-      return await jwt.sign(payload, process.env.SECRET);
-    } else {
-      return 'Username or password not correct';
-    }
-  }
-};
-
 const getAllDBItems = async (model) => {
   try {
     if (model === "products") return await ProductsModel.find({});
