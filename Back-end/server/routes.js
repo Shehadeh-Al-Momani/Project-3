@@ -13,13 +13,7 @@ authRouter.put("/updateProduct/:id", updateProduct)
 authRouter.delete("/deleteProduct/:id", deleteProduct)
 
 // =======================================================================================
-authRouter.get('/Electronics/', async (req, res, next) => {
-  try {
-    res.json(await getDepartments());
-  } catch (err) {
-    throw err;
-  }
-});
+authRouter.get('/Electronics/',getDepartments);
 
 authRouter.post('/:id', async (req, res) => {
   try {

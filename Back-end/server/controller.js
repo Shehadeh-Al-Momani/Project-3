@@ -5,12 +5,16 @@ const { DepartmentsModel } = require('./../db/departmentsSchema');
 const { UsersModel } = require('./../db/usersSchema');
 const { RolesModel } = require('./../db/rolesSchema');
 
-const getDepartments = async () => {
-  //{return await ProductsModel.find().distinct('department');}
-  const arr = await ProductsModel.find();
-  const newArr = arr.map((e, i) => { return e.department })
-  const unique = [...new Set(newArr)];
-  return await unique;
+const getDepartments = async (req, res) => {
+  try {
+    //{res.json(await ProductsModel.find().distinct('department'));}
+    const arr = await ProductsModel.find();
+    const newArr = arr.map((e, i) => { return e.department })
+    const unique = [...new Set(newArr)];
+    res.json(await unique);
+  } catch (err) {
+    throw err;
+  }
 }
 
 //*************************************************************************************************\\
