@@ -1,14 +1,9 @@
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const { users, roles, products } = require('./../models');
 const { ProductsModel } = require('./../db/productsSchema');
 const { CategoriesModel } = require('./../db/catagoriesSchema');
 const { DepartmentsModel } = require('./../db/departmentsSchema');
 // const { ItemsModel } = require('./../db/items');
 const { UsersModel } = require('./../db/usersSchema');
 const { RolesModel } = require('./../db/rolesSchema');
-const SALT = Number(process.env.SALT);
-
 
 const getDepartments = async () => {
   //{return await ProductsModel.find().distinct('department');}
@@ -86,8 +81,6 @@ const deleteProducts = async (parms) => {
 
 module.exports = {
   addDB,
-  register,
-  login,
   getAllDBItems,
   getDepartments,
   getCategories,

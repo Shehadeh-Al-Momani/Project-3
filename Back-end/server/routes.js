@@ -1,24 +1,8 @@
 const express = require('express');
-const {
-  addDB,
-  register,
-  login,
-  getAllDBItems,
-  getDepartments,
-  getCategories,
-  getProducts,
-  discountProducts,
-  deleteProducts,
-  // deleteFirstProducts, 
-} = require('./controller');
-
-const { 
-  getAll,
-  addProduct,
-  updateProduct,
-  deleteProduct
-} = require("./CRUD")
-const { authentication } = require('./middlewares');
+const {addDB,getAllDBItems,getDepartments,getCategories,getProducts,discountProducts,deleteProducts} = require('./controller');
+const {register,login} = require("./registeration_login")
+const {getAll, addProduct, updateProduct, deleteProduct} = require("./CRUD")
+const {authentication } = require('./middlewares');
 const authRouter = express.Router();
 
 // ==================================== Basic CRUD Operation =========================================
@@ -45,21 +29,8 @@ authRouter.post('/:id', async (req, res) => {
   }
 })
 
-authRouter.post('/register', async (req, res) => {
-  try {
-    res.json(await register(req.body));
-  } catch (err) {
-    throw err;
-  }
-});
-
-authRouter.post('/login', async (req, res) => {
-  try {
-    res.json(await login(req.body));
-  } catch (err) {
-    throw err;
-  }
-});
+authRouter.post('/register',register);
+authRouter.post('/login',login);
 
 authRouter.get('/:id', async (req, res) => {
   try {
