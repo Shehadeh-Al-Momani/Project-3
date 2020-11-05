@@ -18,43 +18,18 @@ authRouter.delete("/deleteProduct/:id", deleteProduct)
 
 // =======================================================================================
 authRouter.get('/Electronics/',getDepartments);
+
 authRouter.post('/:id',addDB)
+
 authRouter.post('/register',register);
 authRouter.post('/login',login);
 
-authRouter.get('/:id', async (req, res) => {
-  try {
-    res.json(await getAllDBItems(req.params.id));
-  } catch (err) {
-    throw err;
-  }
-})
+authRouter.get('/:id',getAllDBItems)
 
-authRouter.get('/Electronics/:id', async (req, res, next) => {
-  try {
-    res.json(await getCategories(req.params.id));
-  } catch (err) {
-    throw err;
-  }
-});
-
-authRouter.get('/Electronics/:id/:index', async (req, res, next) => {
-  try {
-    res.json(await getProducts(req.params.id, req.params.index));
-  } catch (err) {
-    throw err;
-  }
-});
+authRouter.get('/Electronics/:id',getCategories);
+authRouter.get('/Electronics/:id/:index',getProducts);
 
 authRouter.put('/Electronics',discountProducts);
-
-authRouter.delete('/Electronics', authentication, async (req, res, next) => {
-  try {
-    res.json(await deleteProducts(req.query.version));
-  } catch (err) {
-    throw err;
-  }
-});
 
 authRouter.delete('/Electronics/:v ',deleteProducts);
 
