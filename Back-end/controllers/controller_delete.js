@@ -1,4 +1,4 @@
-const { ProductsModel } = require('./../db_schema/productsSchema');
+const { ProductsModel } = require('./../db_schema/products');
 
 const deleteProducts = async (req, res) => {
     const parms = req.params.v;

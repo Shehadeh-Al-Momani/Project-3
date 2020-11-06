@@ -1,4 +1,4 @@
-const { ProductsModel } = require('./../db_schema/productsSchema');
+const { ProductsModel } = require('./../db_schema/products');
 
 const getAll = async (req, res) => {
   const arr = await ProductsModel.find();

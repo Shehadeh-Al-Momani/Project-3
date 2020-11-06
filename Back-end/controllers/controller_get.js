@@ -1,6 +1,6 @@
-const { ProductsModel } = require('./../db_schema/productsSchema');
-const { UsersModel } = require('./../db_schema/usersSchema');
-const { RolesModel } = require('./../db_schema/rolesSchema');
+const { ProductsModel } = require('./../db_schema/products');
+const { UsersModel } = require('./../db_schema/users');
+const { RolesModel } = require('./../db_schema/roles');
 
 //===================================================================================\\
 const getDepartments = async (req, res) => {

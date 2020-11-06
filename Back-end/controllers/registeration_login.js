@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { UsersModel } = require('./../db_schema/usersSchema');
-const { RolesModel } = require('./../db_schema/rolesSchema');
+const { UsersModel } = require('./../db_schema/users');
+const { RolesModel } = require('./../db_schema/roles');
 const SALT = Number(process.env.SALT);
 
 const register = async (req, res) => {
