@@ -1,26 +1,26 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { users, roles, products } = require('./../models');
 const { ProductsModel } = require('./../db/productsSchema');
-const { CategoriesModel } = require('./../db/catagoriesSchema');
-const { DepartmentsModel } = require('./../db/departmentsSchema');
 const { UsersModel } = require('./../db/usersSchema');
 const { RolesModel } = require('./../db/rolesSchema');
 const SALT = Number(process.env.SALT);
+// const SECRET = process.env.SECRET;
 
 const register = async (req, res) => {
     try {
-        const body = req.body;
-        const newdUser = users.filter((e) => e.email === body.email);
+        const { email, password, role_id } = req.body;
+        const newdUser = await UsersModel.find({ email })
         if (!newdUser.length) {
-            users.push({
-                email: body.email,
-                password: await bcrypt.hash(body.password, SALT),
-                role_id: body.id,
-            });
-            res.json("Registerion Done You can login now");
+            const passwordHash = await bcrypt.hash(password, SALT);
+            const document = await new UsersModel({ email, password: passwordHash, role_id }).save();
+            try {
+                res.json("Registerion done you can login now");
+            }
+            catch (err) {
+                throw err;
+            }
         } else {
-            return 'User already exists';
+            res.json('Your already registered please login');
         }
     } catch (err) {
         throw err;
@@ -29,19 +29,24 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
     try {
-        const body = req.body;
-        const loginUser = users.filter((e) => e.email === body.email);
-        if (!loginUser.length) {
-            res.json('User Not Found please register');
+        const { email, password, role_id } = req.body;
+        const user = await UsersModel.find({ email, role_id });
+        if (!user.length) {
+            res.json("You aren't registered yet please register now");
         } else {
-            const { loginEmail, loginPassword, loginRole_id } = loginUser.shift();
-            if (await bcrypt.compare(body.password, loginPassword)) {
-                const loginRole = roles.filter((e) => e.id === loginRole_id);
+            if (await bcrypt.compare(password, user.password)) {
+                console.log('user :', user)
+
+                const role = RolesModel.find({ id: user.role_id });
                 const payload = {
-                    email: loginEmail,
-                    role: loginRole.type,
+                    email: user.email,
+                    role: role.type,
                 };
-                res.json(await jwt.sign(payload, process.env.SECRET));
+                try {
+                    res.json(await jwt.sign(payload, process.env.SECRET));
+                } catch (error) {
+                    throw error;
+                }
             } else {
                 res.json('Username or password not correct');
             }
