@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { UsersModel } = require('./../db/usersSchema');
-const { RolesModel } = require('./../db/rolesSchema');
+const { UsersModel } = require('./../db_schema/usersSchema');
+const { RolesModel } = require('./../db_schema/rolesSchema');
 const SALT = Number(process.env.SALT);
 
 const register = async (req, res) => {
@@ -33,13 +33,14 @@ const login = async (req, res) => {
             res.json("You aren't registered yet please register now");
         } else {
             if (await bcrypt.compare(password, user[0].password)) {
-                const role = RolesModel.find({ id: user[0].role_id });
+                const role = await RolesModel.find({ id: user[0].role_id });
                 const payload = {
                     email: user[0].email,
-                    role: role.type,
+                    role: role,
                 };
                 try {
-                    res.json(await jwt.sign(payload, process.env.SECRET));
+                    const token = await jwt.sign(payload, process.env.SECRET);
+                    res.json(["Successfully logged in and this is the token:", token] );
                 } catch (error) {
                     throw error;
                 }

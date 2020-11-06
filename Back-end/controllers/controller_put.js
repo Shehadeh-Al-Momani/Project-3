@@ -1,4 +1,4 @@
-const { ProductsModel } = require('./../db/productsSchema');
+const { ProductsModel } = require('./../db_schema/productsSchema');
 
 //===================================================================================\\
 const discountProducts = async (req, res) => {

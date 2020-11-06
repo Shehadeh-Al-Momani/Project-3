@@ -1,6 +1,4 @@
-const { ProductsModel } = require('./../db/productsSchema');
-const { CategoriesModel } = require('./../db/catagoriesSchema');
-const { DepartmentsModel } = require('./../db/departmentsSchema');
+const { ProductsModel } = require('./../db_schema/productsSchema');
 
 const getAll = async (req, res) => {
   const arr = await ProductsModel.find();
@@ -13,9 +11,6 @@ const getAll = async (req, res) => {
     throw err;
   }
 };
-// category
-// department
-//product
 const addProduct = async (req, res) => {
   const newProduct = new ProductsModel(req.body);
   newProduct
