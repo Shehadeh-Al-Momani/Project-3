@@ -6,10 +6,10 @@ const authentication = async (req, res, next) => {
     res.status(401);
     res.json("Please login first");
   }
-    await jwt.verify(token,process.env.SECRET,(err,result)=>{
+    await jwt.verify(token,process.env.SECRET,(err,parserToken)=>{
     if(err) res.json(err);
-    console.log('RESULT: ',result)
-    if (result.role === "admin") {
+    console.log('parserToken: ',parserToken)
+    if (parserToken.role === "admin") {
       next();
     } else {
       res.json("Your are not autharize to this action");

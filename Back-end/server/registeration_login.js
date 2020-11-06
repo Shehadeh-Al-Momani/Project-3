@@ -1,10 +1,8 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { ProductsModel } = require('./../db/productsSchema');
 const { UsersModel } = require('./../db/usersSchema');
 const { RolesModel } = require('./../db/rolesSchema');
 const SALT = Number(process.env.SALT);
-// const SECRET = process.env.SECRET;
 
 const register = async (req, res) => {
     try {
@@ -34,12 +32,10 @@ const login = async (req, res) => {
         if (!user.length) {
             res.json("You aren't registered yet please register now");
         } else {
-            if (await bcrypt.compare(password, user.password)) {
-                console.log('user :', user)
-
-                const role = RolesModel.find({ id: user.role_id });
+            if (await bcrypt.compare(password, user[0].password)) {
+                const role = RolesModel.find({ id: user[0].role_id });
                 const payload = {
-                    email: user.email,
+                    email: user[0].email,
                     role: role.type,
                 };
                 try {
